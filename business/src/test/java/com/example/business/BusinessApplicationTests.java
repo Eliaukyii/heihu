@@ -1,10 +1,10 @@
-package com.erpandheihu;
+package com.example.business;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ErPandHeihuApplicationTests {
+class BusinessApplicationTests {
 
     @Test
     void contextLoads() {

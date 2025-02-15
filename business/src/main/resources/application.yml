@@ -1,0 +1,10 @@
+
+spring:
+  application:
+    name: business
+
+server:
+  port: 3559
+  servlet:
+    context-path: /
+
