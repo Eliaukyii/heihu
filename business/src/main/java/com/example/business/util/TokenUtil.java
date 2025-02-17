@@ -1,35 +1,54 @@
 package com.example.business.util;
 
+import com.example.business.constant.MsgType;
+import com.example.business.domain.ApiParams;
 import com.example.business.domain.AuthRequest;
 import com.example.business.domain.AuthResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class TokenUtil {
 
+    @Value("${params.url}")
+    private static String url;
+    @Value("${params.uri}")
+    private static String uri;
+    @Value("${params.appKey}")
+    private static String appKey;
+    @Value("${params.appSecret}")
+    private static String appSecret;
+    @Value("${params.certificate}")
+    private static String certificate;
+
+
+
     public static AuthResponse getToken(){
+        String appTicket = MsgType.MSG_INFO.getBizContent().getAppTicket();
+        System.out.println("请求token，appTicket = " + appTicket);
+
         WebClient webClient = WebClient.builder()
-                .baseUrl("https://openapi.chanjet.com")
-                .defaultHeader("appKey", "1qxypOmr")
-                .defaultHeader("appSecret", "01E398317E2C2C634D90FA931EFFA92D")
+                .baseUrl(url)
+                .defaultHeader("appKey", appKey)
+                .defaultHeader("appSecret", appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
         AuthRequest requestBody = new AuthRequest(
-                "t-24e78354d1704b8d98a97bb2d9c3d82f",
-                "OXYwHSWAc22UPHxfIUM0SV1t69Ur50h2hQ5rVnS47dYxfWu0mH2IbIxVNe/lcMG7/p6QHGOiUnFjDKwHLWdR8auh/DxDywljHbo9v0hwkP+bRbEM3DvXAezmhMmaRnD/mNus3y0pDHhpJiLJvZzlkqcBssBkw2+/3wH0wM5BoZYDSpcTyLzdRlBJ9O0hOuDf"
+                appTicket,
+                certificate
         );
 
         AuthResponse result = webClient.post()
-                .uri("/v1/common/auth/selfBuiltApp/generateToken")
+                .uri(uri)
                 .bodyValue(requestBody)
                 .retrieve()
                 .onStatus(status -> !status.is2xxSuccessful(),
                         response -> response.bodyToMono(String.class).map(Exception::new))
                 .bodyToMono(AuthResponse.class)
-                .block();
-        System.out.println(result);
+                .block(); //todo .block()谨慎使用，后续再分析是否使用
+        System.out.println("请求token响应数据：" + result);
 
         return result;
     }

@@ -8,3 +8,9 @@ server:
   servlet:
     context-path: /
 
+params:
+  url: https://openapi.chanjet.com
+  uri: /v1/common/auth/selfBuiltApp/generateToken
+  appKey: 1qxypOmr
+  appSecret: 01E398317E2C2C634D90FA931EFFA92D
+  certificate: OXYwHSWAc22UPHxfIUM0SV1t69Ur50h2hQ5rVnS47dYxfWu0mH2IbIxVNe/lcMG7/p6QHGOiUnFjDKwHLWdR8auh/DxDywljHbo9v0hwkP+bRbEM3DvXAezmhMmaRnD/mNus3y0pDHhpJiLJvZzlkqcBssBkw2+/3wH0wM5BoZYDSpcTyLzdRlBJ9O0hOuDf

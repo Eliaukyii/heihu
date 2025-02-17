@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 设置 Spring Boot 配置 -->
+    <springProfile name="default">
+        <!-- 控制台日志输出 -->
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss,Asia/Shanghai} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <!-- 文件日志输出 -->
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/var/log/business/application.log</file> <!-- 修改为你希望存放日志文件的路径 -->
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>/var/log/business/application-%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 日志文件按日期滚动 -->
+                <maxHistory>30</maxHistory> <!-- 保留 30 天的日志 -->
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss,Asia/Shanghai} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <!-- 标准输出和标准错误输出日志 -->
+        <appender name="STDOUT" class="ch.qos.logback.core.FileAppender">
+            <file>/var/log/business/console.log</file> <!-- 控制台日志文件 -->
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss,Asia/Shanghai} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+
+    </springProfile>
+
+    <!-- 配置日志级别 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/> <!-- 添加控制台输出到文件 -->
+    </root>
+
+    <!-- 特定包的日志级别 -->
+<!--    <logger name="org.springframework.web" level="DEBUG"/>-->
+<!--    <logger name="org.hibernate" level="WARN"/>-->
+
+</configuration>
