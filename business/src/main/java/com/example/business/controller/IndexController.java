@@ -1,13 +1,12 @@
 package com.example.business.controller;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.example.business.constant.MsgType;
 import com.example.business.domain.Msg;
 import com.example.business.domain.MsgInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.prism.impl.ps.BaseShaderContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,11 @@ import java.util.Map;
 
 @RestController
 @RequestMapping
+@Slf4j
 public class IndexController {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 通过ip地址直接访问
@@ -40,12 +43,11 @@ public class IndexController {
         byte[] bytes = Base64.decodeBase64(encryptMsg);
         bytes = cipher.doFinal(bytes);
         String s = new String(bytes, StandardCharsets.UTF_8);
-        System.out.println("解密后数据：" + s);
+        log.info("解密后数据：" + s);
 
-        ObjectMapper objectMapper = new ObjectMapper();
         MsgInfo msgInfo = objectMapper.readValue(s, MsgInfo.class);
         MsgType.MSG_INFO = msgInfo;
-        System.out.println("MsgType.MSG_INFO = " + MsgType.MSG_INFO);
+        log.info("MsgType.MSG_INFO = " + MsgType.MSG_INFO);
 
         Map<String, Object> map = new HashMap<>();
         map.put("result", "success");
