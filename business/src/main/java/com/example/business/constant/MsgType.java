@@ -10,5 +10,9 @@ public class MsgType {
 
     public static MsgInfo MSG_INFO = new MsgInfo();
 
+    public static String INVENTORY_CREATE = "Inventory_Create";
+    public static String BOM_CREATE = "Bom_Create";
+    public static String BOM_UPDATE = "Bom_Update";
+
 
 }
