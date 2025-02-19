@@ -1,6 +1,6 @@
 package com.example.business.controller;
 
-import com.example.business.service.processor.ProcessorService;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,7 @@ import java.util.Map;
     @Slf4j
 public class OtherDispatchCreateController {
 
-    @Autowired
-    private ProcessorService processorService;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -28,6 +27,7 @@ public class OtherDispatchCreateController {
     public ResponseEntity<String>  OtherDispatchCreate(@RequestBody Map<String,Object> message){
         try {
             String jsonMessage = objectMapper.writeValueAsString(message);
+            System.out.println(jsonMessage);
             return new ResponseEntity<>(jsonMessage, HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
