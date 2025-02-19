@@ -1,10 +1,8 @@
 package com.example.business.controller;
 
 import com.example.business.constant.MsgType;
-import com.example.business.constant.SaveToken;
 import com.example.business.domain.Msg;
 import com.example.business.domain.MsgInfo;
-import com.example.business.service.processor.ProcessorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -25,8 +23,8 @@ import java.util.Map;
 @Slf4j
 public class IndexController {
 
-    @Autowired
-    private ProcessorService processorService;
+//    @Autowired
+//    private ProcessorService processorService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -56,7 +54,7 @@ public class IndexController {
 
         //根据msgType的不同调用不同的实现类
         String msgType = msgInfo.getMsgType();
-        processorService.execute(msgType);
+//        processorService.execute(msgType);
 
         Map<String, Object> map = new HashMap<>();
         map.put("result", "success");

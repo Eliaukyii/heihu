@@ -21,25 +21,20 @@ public class BusinessApplication {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @PostConstruct
-    public void init() {
-        //todo 读取token文件
-
-        File file = new File("/var/app/files/token.txt");
-
-        try {
-            // 读取整个文件内容到字符串
-            byte[] bytes = Files.readAllBytes(Paths.get(file.getPath()));
-            String tokenStr = new String(bytes);
-            AuthResponse authResponse = objectMapper.readValue(tokenStr, AuthResponse.class);
-            SaveToken.authResponse = authResponse;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
+//    @PostConstruct
+//    public void init() {
+//        //todo 读取token文件
+//        File file = new File("/var/app/files/token.txt");
+//        try {
+//            // 读取整个文件内容到字符串
+//            byte[] bytes = Files.readAllBytes(Paths.get(file.getPath()));
+//            String tokenStr = new String(bytes);
+//            AuthResponse authResponse = objectMapper.readValue(tokenStr, AuthResponse.class);
+//            SaveToken.authResponse = authResponse;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main(String[] args) {
         SpringApplication.run(BusinessApplication.class, args);
