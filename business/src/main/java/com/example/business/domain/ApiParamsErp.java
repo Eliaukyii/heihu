@@ -1,0 +1,41 @@
+package com.example.business.domain;
+
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+@Data
+public class ApiParamsErp {
+    public static String url;
+    public static String uri;
+    public static String appKey;
+    public static String appSecret;
+    public static String certificate;
+
+
+    @Value("${paramsErp.url}")
+    public void setUrl(String url){
+        ApiParamsErp.url = url;
+    }
+
+    @Value("${paramsErp.uri}")
+    public void setUri(String uri) {
+        ApiParamsErp.uri = uri;
+    }
+
+    @Value("${paramsErp.appKey}")
+    public void setAppKey(String appKey) {
+        ApiParamsErp.appKey = appKey;
+    }
+
+    @Value("${paramsErp.appSecret}")
+    public void setAppSecret(String appSecret) {
+        ApiParamsErp.appSecret = appSecret;
+    }
+
+    @Value("${paramsErp.certificate}")
+    public void setCertificate(String certificate) {
+        ApiParamsErp.certificate = certificate;
+    }
+}

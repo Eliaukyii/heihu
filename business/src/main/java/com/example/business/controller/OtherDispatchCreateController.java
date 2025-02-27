@@ -76,21 +76,16 @@ public class OtherDispatchCreateController {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        try {
+
             String result = webClient.post()
     //                .uri(apiParams.uri)
                     .uri("/tplus/api/v2/otherDispatch/Create")
                     .bodyValue(message)
                     .retrieve()
-
-                    .onStatus(status -> !status.is2xxSuccessful(),
-                            response -> response.bodyToMono(String.class).map(Exception::new))
                     .bodyToMono(String.class)
-                    .block(); //todo .block()谨慎使用，后续再分析是否使用
+                    .toString();
             log.info("请求token响应数据：" + result);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
 
     }
 

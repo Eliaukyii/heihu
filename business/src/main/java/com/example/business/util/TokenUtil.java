@@ -2,6 +2,7 @@ package com.example.business.util;
 
 import com.example.business.constant.MsgType;
 import com.example.business.domain.ApiParams;
+import com.example.business.domain.ApiParamsErp;
 import com.example.business.domain.AuthRequest;
 import com.example.business.domain.AuthResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class TokenUtil {
 
 
-    public static ApiParams apiParams = new ApiParams();
+    public static ApiParamsErp apiParamsErp = new ApiParamsErp();
 
 
     public static AuthResponse getToken(){
@@ -21,19 +22,19 @@ public class TokenUtil {
         log.info("请求token，appTicket = " + appTicket);
 
         WebClient webClient = WebClient.builder()
-                .baseUrl(apiParams.url)
-                .defaultHeader("appKey", apiParams.appKey)
-                .defaultHeader("appSecret", apiParams.appSecret)
+                .baseUrl(apiParamsErp.url)
+                .defaultHeader("appKey", apiParamsErp.appKey)
+                .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
         AuthRequest requestBody = new AuthRequest(
                 appTicket,
-                apiParams.certificate
+                apiParamsErp.certificate
         );
 
         AuthResponse result = webClient.post()
-                .uri(apiParams.uri)
+                .uri(apiParamsErp.uri)
                 .bodyValue(requestBody)
                 .retrieve()
                 .onStatus(status -> !status.is2xxSuccessful(),
