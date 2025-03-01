@@ -1,6 +1,8 @@
 package com.example.business.service.processor;
 
+import com.example.business.domain.MsgInfo;
 import com.example.business.service.processor.Processor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ProcessorService {
 
     private final Map<String, Processor> processorMap;
@@ -22,12 +25,15 @@ public class ProcessorService {
                 .collect(Collectors.toMap(Processor::getType, Function.identity()));
     }
 
-    public void execute(String type) {
-        Processor processor = processorMap.get(type);
+    public void execute(MsgInfo msgInfo) {
+        String msgType = msgInfo.getMsgType();
+        Processor processor = processorMap.get(msgType);
         if (processor == null) {
-            throw new IllegalArgumentException("未知类型: " + type);
+//            throw new IllegalArgumentException("未知类型: " + msgType);
+            log.error("未知类型: " + msgType);
+            return;
         }
-        processor.handle();
+        processor.handle(msgInfo);
     }
 
 }

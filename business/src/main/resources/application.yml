@@ -8,7 +8,7 @@ server:
   servlet:
     context-path: /
 
-params:
+paramsHeihu:
   tokenUrl: https://v3-ali.blacklake.cn/api/openapi/domain/api/v1/access_token/_get_access_token   #获取黑湖token请求地址
   url: https://v3-ali.blacklake.cn/api/openapi/domain/web/v1/route #域名
   materialUri: /material/open/v2/material/_doimport            #物料定义请求地址
@@ -19,6 +19,7 @@ params:
   purchaseOrderUri: /order/open/v2/purchase_order/_doimport    #销售订单请求地址
   appKey: cli_1735194793846496
   appSecret: b4c45fa0f60e41de9769ba3055ce6ed4
+  factoryNumber: 60894247
 
 paramsErp:
   url: https://openapi.chanjet.com
@@ -26,7 +27,7 @@ paramsErp:
   appKey: 1qxypOmr
   appSecret: 01E398317E2C2C634D90FA931EFFA92D
   certificate: OXYwHSWAc22UPHxfIUM0SV1t69Ur50h2hQ5rVnS47dYxfWu0mH2IbIxVNe/lcMG7/p6QHGOiUnFjDKwHLWdR8auh/DxDywljHbo9v0hwkP+bRbEM3DvXAezmhMmaRnD/mNus3y0pDHhpJiLJvZzlkqcBssBkw2+/3wH0wM5BoZYDSpcTyLzdRlBJ9O0hOuDf
-
+  customerUri: /tplus/api/v2/partner/Query         #往来单位查询
 
 
 OtherDispatchCreateParams:

@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Data
 public class OtherDispatchCreateParams {
     private static String Url;
@@ -12,23 +12,24 @@ public class OtherDispatchCreateParams {
     private static String appKey;
     private static String appSecret;
 
-    @Value("${params.url}")
+//    @Value("${params.url}")
     public void setUrl(String url){
-        ApiParams.url = url;
+        ApiParamsHeihu.url = url;
     }
 
-    @Value("${OtherDispatchCreateParams.uri}")
+//    @Value("${OtherDispatchCreateParams.uri}")
     public void setOtherDispatchCreateUri(String uri) {
         OtherDispatchCreateParams.Uri = Uri;
     }
 
-    @Value("${params.appKey}")
+//    @Value("${params.appKey}")
     public void setAppKey(String appKey) {
-        ApiParams.appKey = appKey;
+        ApiParamsHeihu.appKey = appKey;
     }
 
-    @Value("${params.appSecret}")
+//    @Value("${params.appSecret}")
     public void setAppSecret(String appSecret) {
-        ApiParams.appSecret = appSecret;
+        ApiParamsHeihu.appSecret = appSecret;
     }
 }
+

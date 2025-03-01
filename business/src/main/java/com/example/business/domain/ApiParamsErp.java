@@ -12,6 +12,7 @@ public class ApiParamsErp {
     public static String appKey;
     public static String appSecret;
     public static String certificate;
+    public static String customerUri;
 
 
     @Value("${paramsErp.url}")
@@ -38,4 +39,12 @@ public class ApiParamsErp {
     public void setCertificate(String certificate) {
         ApiParamsErp.certificate = certificate;
     }
+
+    @Value("${paramsErp.customerUri}")
+    public void setCustomerUri(String customerUri) {
+        ApiParamsErp.customerUri = customerUri;
+    }
+
+
+
 }

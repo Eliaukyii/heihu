@@ -1,0 +1,14 @@
+{
+    "dto": {
+        "Code": "test0301001", "Name": "供应商测试001",
+        "PartnerType": {  "Code": "00"    },
+        "PartnerClass":{  "Code": "02-G"  }
+    }
+}
+
+{
+    "param": {
+       "Code": "ZT002",
+       "SelectFields": "id,code,name,PartnerClass.Code,PartnerType.Code"
+    }
+}

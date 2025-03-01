@@ -1,5 +1,6 @@
 package com.example.business.controller;
 
+import com.example.business.constant.MsgInfoData;
 import com.example.business.constant.MsgType;
 import com.example.business.domain.Msg;
 import com.example.business.domain.MsgInfo;
@@ -50,12 +51,12 @@ public class IndexController {
         log.info("解密后数据：" + s);
 
         MsgInfo msgInfo = objectMapper.readValue(s, MsgInfo.class);
-        MsgType.MSG_INFO = msgInfo;
-        log.info("MsgType.MSG_INFO = " + MsgType.MSG_INFO);
+        MsgInfoData.MSG_INFO = msgInfo;
+        log.info("MsgInfoData.MSG_INFO = " + MsgInfoData.MSG_INFO);
 
         //根据msgType的不同调用不同的实现类
         String msgType = msgInfo.getMsgType();
-        processorService.execute(msgType);
+        processorService.execute(msgInfo);
 
         Map<String, Object> map = new HashMap<>();
         map.put("result", "success");

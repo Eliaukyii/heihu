@@ -3,20 +3,7 @@ package com.example.business.domain;
 import lombok.Data;
 
 @Data
-public class AuthResponse {
-
-    private boolean result;
-
-    private Object error;
-
-    private ValueBody value;
-
-    private String traceId;
-
-}
-
-@Data
-class ValueBody{
+class ErpAuthResponseValueBody {
 
     private String accessToken;
 

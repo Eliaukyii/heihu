@@ -1,19 +1,10 @@
 package com.example.business;
 
-import cn.hutool.json.JSONUtil;
-import com.example.business.constant.SaveToken;
-import com.example.business.domain.AuthResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class BusinessApplication {

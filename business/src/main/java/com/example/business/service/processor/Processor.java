@@ -1,8 +1,10 @@
 package com.example.business.service.processor;
 
+import com.example.business.domain.MsgInfo;
+
 public interface Processor {
 
-    void handle();
+    void handle(MsgInfo msgInfo);
 
     String getType();
 

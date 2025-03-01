@@ -1,7 +1,7 @@
 package com.example.business.api;
 
 import com.example.business.constant.MsgType;
-import com.example.business.domain.AuthResponse;
+import com.example.business.domain.ErpAuthResponse;
 import com.example.business.domain.MsgInfo;
 import com.example.business.util.TokenUtil;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +18,8 @@ public class Test01Controller {
      * @return
      */
     @PostMapping("/getToken")
-    public AuthResponse getToken(){
-        AuthResponse token = TokenUtil.getToken();
+    public ErpAuthResponse getToken(){
+        ErpAuthResponse token = TokenUtil.getErpToken();
 
         return token;
     }
@@ -28,10 +28,10 @@ public class Test01Controller {
      * 测试获取msg数据
      * @return
      */
-    @GetMapping("/getMsg")
-    public MsgInfo getMsg(){
-        return MsgType.MSG_INFO;
-    }
+//    @GetMapping("/getMsg")
+//    public MsgInfo getMsg(){
+//        return MsgType.MSG_INFO;
+//    }
 
 
 }

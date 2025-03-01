@@ -1,10 +1,7 @@
 package com.example.business.controller;
 
-import cn.hutool.json.JSONObject;
-import com.example.business.domain.ApiParams;
-import com.example.business.domain.AuthResponse;
+import com.example.business.domain.ApiParamsHeihu;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.CustomLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
@@ -23,7 +19,7 @@ import java.util.Map;
 @Slf4j
 public class OtherDispatchCreateController {
 
-    public static ApiParams apiParams = new ApiParams();
+    public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -69,10 +65,10 @@ public class OtherDispatchCreateController {
     private void requestMethod(Map<String,Object> message) {
 
         WebClient webClient = WebClient.builder()
-                .baseUrl(apiParams.url)
+                .baseUrl(apiParamsHeihu.url)
                 .defaultHeader("openToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpc3YiLCJpc3MiOiJjaGFuamV0IiwidXNlcklkIjoiMzk0ODIzNjg2NDMwMzYxIiwib3JnSWQiOiIxMjM5MzQ2MjE1OTg1NDgwIiwiYWNjZXNzX3Rva2VuIjoiYmMtNTY2N2JmODItYTNiMS00ZDc5LWJiZWQtZmZiMTc1MzAyNTUwIiwiYXVkIjoiaXN2IiwibmJmIjoxNzM5OTc3ODk0LCJhcHBJZCI6IjU4Iiwic2NvcGUiOiJhdXRoX2FsbCIsImFwcEtleSI6IjFxeHlwT21yIiwiaWQiOiI4YWRhNDQyYy0yZDcwLTQ2Y2YtYThkZi1kYjNlNWYxMmZmNWQiLCJleHAiOjE3NDA0OTYyOTQsImlhdCI6MTczOTk3Nzg5NCwib3JnQWNjb3VudCI6InVyaWhua20zMml1biJ9.AoEBKOxSR8h3wyw-mwW-Mmj-yJtR9CgruCL2_CsRWIg")
-                .defaultHeader("appKey", apiParams.appKey)
-                .defaultHeader("appSecret", apiParams.appSecret)
+                .defaultHeader("appKey", apiParamsHeihu.appKey)
+                .defaultHeader("appSecret", apiParamsHeihu.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

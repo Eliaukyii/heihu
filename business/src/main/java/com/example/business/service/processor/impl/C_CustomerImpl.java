@@ -1,9 +1,19 @@
 package com.example.business.service.processor.impl;
 
 import com.example.business.constant.MsgType;
+import com.example.business.domain.*;
 import com.example.business.service.processor.Processor;
+import com.example.business.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 客户 and 供应商
@@ -11,10 +21,75 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class C_CustomerImpl implements Processor {
+
+    public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
+    public static ApiParamsErp apiParamsErp = new ApiParamsErp();
+
     @Override
-    public void handle() {
-        //代码实现逻辑
+    public void handle(MsgInfo msgInfo) {
         log.info("程序走至：客户-供应商");
+        //代码实现逻辑
+
+        MsgInfoBizContent bizContent = msgInfo.getBizContent();
+        String code = bizContent.getCode();
+        String name = bizContent.getName();
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        map.put("name", name);
+
+        MsgInfoBizContentPartnerType partnerType = bizContent.getPartnerType();
+        String partnerTypeCode = partnerType.getCode();
+        //请求erp获取详细信息
+        WebClient webClientErp = WebClient.builder()
+                .baseUrl(apiParamsErp.url)
+                .defaultHeader("openToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpc3YiLCJpc3MiOiJjaGFuamV0IiwidXNlcklkIjoiMzk0ODIzNjg2NDMwMzYxIiwib3JnSWQiOiIxMjM5MzQ2MjE1OTg1NDgwIiwiYWNjZXNzX3Rva2VuIjoiYmMtNTY2N2JmODItYTNiMS00ZDc5LWJiZWQtZmZiMTc1MzAyNTUwIiwiYXVkIjoiaXN2IiwibmJmIjoxNzQwNjY1NTY2LCJhcHBJZCI6IjU4Iiwic2NvcGUiOiJhdXRoX2FsbCIsImFwcEtleSI6IjFxeHlwT21yIiwiaWQiOiI4MTJhM2JlOS05M2ZmLTQxYTctODE3ZS05YzZhNjNlY2UwZWEiLCJleHAiOjE3NDExODM5NjYsImlhdCI6MTc0MDY2NTU2Niwib3JnQWNjb3VudCI6InVyaWhua20zMml1biJ9.tdGkJlLtwLS1d_L6t4RLLquy-JGoj2x5p6CkZeKGOMU")
+                .defaultHeader("appKey", apiParamsErp.appKey)
+                .defaultHeader("appSecret", apiParamsErp.appSecret)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        HashMap<String, Object> erpMap = new HashMap<>();
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("Code", code);
+        map1.put("SelectFields", "id,code,name,PartnerClass.Code,PartnerType.Code");
+        erpMap.put("param", map1);
+
+        ArrayList<Object> list = new ArrayList<>();
+        String ErpResponseData = webClientErp.post()
+                .uri(apiParamsErp.customerUri)
+                .bodyValue(erpMap)
+                .retrieve()
+                .bodyToMono(list.getClass())
+                .block().toString();
+        log.info("供应商 - 根据code请求erp的响应数据：" + ErpResponseData);
+
+        //请求黑湖
+        WebClient webClient = WebClient.builder()
+                .baseUrl(apiParamsHeihu.url)
+                .defaultHeader("X-AUTH", TokenUtil.getHeihuToken().getData().getAppAccessToken())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        //00供应商，01客户，02客户/供应商
+        if ("00".equals(partnerTypeCode)) {
+
+            //todo .retrieve().bodyToMono(String.class)能否去掉？
+            String heihuResponse = webClient.post()
+                    .uri(apiParamsHeihu.customerUri)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            log.info("供应商 - 请求黑湖响应数据：" + heihuResponse);
+
+        } else if ("01".equals(partnerTypeCode)){
+
+        } else if ("02".equals(partnerTypeCode)) {
+            //暂无
+        } else {
+            log.error("未知的name！");
+        }
+
     }
 
     @Override

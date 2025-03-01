@@ -2,10 +2,9 @@ package com.example.business.scheduler;
 
 
 import cn.hutool.json.JSON;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.example.business.constant.SaveToken;
-import com.example.business.domain.AuthResponse;
+import com.example.business.domain.ErpAuthResponse;
 import com.example.business.util.TokenUtil;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,8 +19,8 @@ public class TokenScheduler {
 
     @Scheduled(cron = "0 */1 * * * ?")
     public void getToken() throws FileNotFoundException {
-        AuthResponse token = TokenUtil.getToken();
-        SaveToken.authResponse = token;
+        ErpAuthResponse token = TokenUtil.getErpToken();
+        SaveToken.erpAuthResponse = token;
         JSON json = JSONUtil.parse(token);
         String tokenStr = json.toString();
 

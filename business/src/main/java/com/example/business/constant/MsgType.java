@@ -8,7 +8,6 @@ public class MsgType {
 
 //    public static String MSG_TYPE = MsgType.MSG_INFO.getMsgType();
 
-    public static MsgInfo MSG_INFO = new MsgInfo();
 
     /**
      * 存货新增

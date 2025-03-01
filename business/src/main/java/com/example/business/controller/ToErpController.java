@@ -1,6 +1,6 @@
 package com.example.business.controller;
 
-import com.example.business.domain.ApiParams;
+import com.example.business.domain.ApiParamsHeihu;
 import com.example.business.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +20,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Slf4j
 public class ToErpController {
 
-    public static ApiParams apiParams = new ApiParams();
+    public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
 
     /**
      *
@@ -30,10 +30,10 @@ public class ToErpController {
     @PostMapping("/otherDispatchCreate")
     public R otherDispatchCreate(@RequestBody String message){
         WebClient webClient = WebClient.builder()
-                .baseUrl(apiParams.url)
+                .baseUrl(apiParamsHeihu.url)
                 .defaultHeader("openToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpc3YiLCJpc3MiOiJjaGFuamV0IiwidXNlcklkIjoiMzk0ODIzNjg2NDMwMzYxIiwib3JnSWQiOiIxMjM5MzQ2MjE1OTg1NDgwIiwiYWNjZXNzX3Rva2VuIjoiYmMtNTY2N2JmODItYTNiMS00ZDc5LWJiZWQtZmZiMTc1MzAyNTUwIiwiYXVkIjoiaXN2IiwibmJmIjoxNzM5OTc3ODk0LCJhcHBJZCI6IjU4Iiwic2NvcGUiOiJhdXRoX2FsbCIsImFwcEtleSI6IjFxeHlwT21yIiwiaWQiOiI4YWRhNDQyYy0yZDcwLTQ2Y2YtYThkZi1kYjNlNWYxMmZmNWQiLCJleHAiOjE3NDA0OTYyOTQsImlhdCI6MTczOTk3Nzg5NCwib3JnQWNjb3VudCI6InVyaWhua20zMml1biJ9.AoEBKOxSR8h3wyw-mwW-Mmj-yJtR9CgruCL2_CsRWIg")
-                .defaultHeader("appKey", apiParams.appKey)
-                .defaultHeader("appSecret", apiParams.appSecret)
+                .defaultHeader("appKey", apiParamsHeihu.appKey)
+                .defaultHeader("appSecret", apiParamsHeihu.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 

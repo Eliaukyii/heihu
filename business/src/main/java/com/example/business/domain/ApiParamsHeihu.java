@@ -2,13 +2,12 @@ package com.example.business.domain;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 //@ConfigurationProperties(prefix = "params")
 @Component
 @Data
-public class ApiParams {
+public class ApiParamsHeihu {
     public static String url;
     public static String tokenUrl;
     public static String materialUri;
@@ -19,52 +18,58 @@ public class ApiParams {
     public static String purchaseOrderUri;
     public static String appKey;
     public static String appSecret;
+    public static String factoryNumber;
 //    public static String certificate;
 
 
-    @Value("${params.tokenUrl}")
+    @Value("${paramsHeihu.tokenUrl}")
     public void setTokenUrl(String tokenUrl){
-        ApiParams.tokenUrl = tokenUrl;
+        ApiParamsHeihu.tokenUrl = tokenUrl;
     }
 
-    @Value("${params.url}")
+    @Value("${paramsHeihu.url}")
     public void setUrl(String url){
-        ApiParams.url = url;
+        ApiParamsHeihu.url = url;
     }
 
-    @Value("${params.materialUri}")
+    @Value("${paramsHeihu.materialUri}")
     public void setMaterialUri(String materialUri) {
-        ApiParams.materialUri = materialUri;
+        ApiParamsHeihu.materialUri = materialUri;
     }
-    @Value("${params.bomUri}")
+    @Value("${paramsHeihu.bomUri}")
     public void setBomUri(String bomUri) {
-        ApiParams.bomUri = bomUri;
+        ApiParamsHeihu.bomUri = bomUri;
     }
-    @Value("${params.customerUri}")
+    @Value("${paramsHeihu.customerUri}")
     public void setCustomerUri(String customerUri) {
-        ApiParams.customerUri = customerUri;
+        ApiParamsHeihu.customerUri = customerUri;
     }
-    @Value("${params.supplierUri}")
+    @Value("${paramsHeihu.supplierUri}")
     public void setSupplierUri(String supplierUri) {
-        ApiParams.supplierUri = supplierUri;
+        ApiParamsHeihu.supplierUri = supplierUri;
     }
-    @Value("${params.saleOrderUri}")
+    @Value("${paramsHeihu.saleOrderUri}")
     public void setSaleOrderUri(String saleOrderUri) {
-        ApiParams.saleOrderUri = saleOrderUri;
+        ApiParamsHeihu.saleOrderUri = saleOrderUri;
     }
-    @Value("${params.purchaseOrderUri}")
+    @Value("${paramsHeihu.purchaseOrderUri}")
     public void setPurchaseOrderUri(String purchaseOrderUri) {
-        ApiParams.purchaseOrderUri = purchaseOrderUri;
+        ApiParamsHeihu.purchaseOrderUri = purchaseOrderUri;
     }
 
-    @Value("${params.appKey}")
+    @Value("${paramsHeihu.appKey}")
     public void setAppKey(String appKey) {
-        ApiParams.appKey = appKey;
+        ApiParamsHeihu.appKey = appKey;
     }
 
-    @Value("${params.appSecret}")
+    @Value("${paramsHeihu.appSecret}")
     public void setAppSecret(String appSecret) {
-        ApiParams.appSecret = appSecret;
+        ApiParamsHeihu.appSecret = appSecret;
+    }
+
+    @Value("${paramsHeihu.factoryNumber}")
+    public void setFactoryNumber(String factoryNumber) {
+        ApiParamsHeihu.factoryNumber = factoryNumber;
     }
 
 

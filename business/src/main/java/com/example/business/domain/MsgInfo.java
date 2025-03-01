@@ -9,10 +9,17 @@ public class MsgInfo {
 
     private String appKey;
 
+    private String appId;
+
     private String msgType;
 
     private String time;
 
-    private BizContent bizContent;
+    private MsgInfoBizContent bizContent;
+
+    private String orgId;
+
+    private String requestId;
+
 
 }
