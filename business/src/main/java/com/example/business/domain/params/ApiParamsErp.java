@@ -1,4 +1,4 @@
-package com.example.business.domain;
+package com.example.business.domain.params;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

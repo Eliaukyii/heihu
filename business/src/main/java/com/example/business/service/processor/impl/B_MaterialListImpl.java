@@ -20,6 +20,6 @@ public class B_MaterialListImpl implements Processor {
 
     @Override
     public String getType() {
-        return MsgType.BOM_CREATE;
+        return MsgType.BOM_AUDIT;
     }
 }

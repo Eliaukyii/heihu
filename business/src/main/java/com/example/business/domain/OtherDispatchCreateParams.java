@@ -1,8 +1,7 @@
 package com.example.business.domain;
 
+import com.example.business.domain.params.ApiParamsHeihu;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 //@Component
 @Data

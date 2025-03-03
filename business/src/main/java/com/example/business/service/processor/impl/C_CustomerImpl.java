@@ -2,17 +2,20 @@ package com.example.business.service.processor.impl;
 
 import com.example.business.constant.MsgType;
 import com.example.business.domain.*;
+import com.example.business.domain.params.ApiParamsErp;
+import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.service.processor.Processor;
 import com.example.business.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,12 +58,12 @@ public class C_CustomerImpl implements Processor {
         erpMap.put("param", map1);
 
         ArrayList<Object> list = new ArrayList<>();
-        String ErpResponseData = webClientErp.post()
+        List<Object> ErpResponseData = webClientErp.post()
                 .uri(apiParamsErp.customerUri)
                 .bodyValue(erpMap)
                 .retrieve()
                 .bodyToMono(list.getClass())
-                .block().toString();
+                .block();
         log.info("供应商 - 根据code请求erp的响应数据：" + ErpResponseData);
 
         //请求黑湖
@@ -75,7 +78,7 @@ public class C_CustomerImpl implements Processor {
 
             //todo .retrieve().bodyToMono(String.class)能否去掉？
             String heihuResponse = webClient.post()
-                    .uri(apiParamsHeihu.customerUri)
+                    .uri(apiParamsHeihu.supplierUri)
                     .bodyValue(map)
                     .retrieve()
                     .bodyToMono(String.class)

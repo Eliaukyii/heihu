@@ -1,10 +1,7 @@
 package com.example.business.api;
 
-import com.example.business.constant.MsgType;
-import com.example.business.domain.ErpAuthResponse;
-import com.example.business.domain.MsgInfo;
+import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.util.TokenUtil;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

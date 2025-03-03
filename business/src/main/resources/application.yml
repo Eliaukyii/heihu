@@ -29,6 +29,11 @@ paramsErp:
   certificate: OXYwHSWAc22UPHxfIUM0SV1t69Ur50h2hQ5rVnS47dYxfWu0mH2IbIxVNe/lcMG7/p6QHGOiUnFjDKwHLWdR8auh/DxDywljHbo9v0hwkP+bRbEM3DvXAezmhMmaRnD/mNus3y0pDHhpJiLJvZzlkqcBssBkw2+/3wH0wM5BoZYDSpcTyLzdRlBJ9O0hOuDf
   customerUri: /tplus/api/v2/partner/Query         #往来单位查询
 
+file:
+  token:
+    filePath: /var/app/files/
+    fileName: token.txt
+
 
 OtherDispatchCreateParams:
   uri: /tplus/api/v2/otherDispatch/Create

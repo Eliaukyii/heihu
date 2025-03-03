@@ -51,11 +51,10 @@ public class IndexController {
         log.info("解密后数据：" + s);
 
         MsgInfo msgInfo = objectMapper.readValue(s, MsgInfo.class);
-        MsgInfoData.MSG_INFO = msgInfo;
-        log.info("MsgInfoData.MSG_INFO = " + MsgInfoData.MSG_INFO);
+//        MsgInfoData.MSG_INFO = msgInfo;
+//        log.info("MsgInfoData.MSG_INFO = " + MsgInfoData.MSG_INFO);
 
         //根据msgType的不同调用不同的实现类
-        String msgType = msgInfo.getMsgType();
         processorService.execute(msgInfo);
 
         Map<String, Object> map = new HashMap<>();

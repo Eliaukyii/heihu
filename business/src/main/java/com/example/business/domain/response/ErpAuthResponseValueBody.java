@@ -1,9 +1,9 @@
-package com.example.business.domain;
+package com.example.business.domain.response;
 
 import lombok.Data;
 
 @Data
-class ErpAuthResponseValueBody {
+public class ErpAuthResponseValueBody {
 
     private String accessToken;
 

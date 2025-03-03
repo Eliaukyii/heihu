@@ -1,6 +1,6 @@
 package com.example.business.controller;
 
-import com.example.business.domain.ApiParamsHeihu;
+import com.example.business.domain.params.ApiParamsHeihu;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package com.example.business.controller;
 
-import com.example.business.domain.ApiParamsHeihu;
+import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
