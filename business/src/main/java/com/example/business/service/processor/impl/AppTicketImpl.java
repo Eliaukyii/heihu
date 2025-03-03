@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 
@@ -45,8 +46,20 @@ public class AppTicketImpl implements Processor {
                 ErpAuthResponse erpToken = TokenUtil.getErpToken();
 //                SaveToken.erpAuthResponse = erpToken;
                 SaveToken.erpToken = erpToken.getValue().getAccessToken();
+
+                this.writeTokenToFile();
             }
 
+        }
+
+    }
+
+    private void writeTokenToFile() {
+        try {
+            Path tokenFilePath = Paths.get(tokenFileParams.filePath + tokenFileParams.fileName);
+            Files.write(tokenFilePath, SaveToken.erpToken.getBytes());
+        } catch (IOException e) {
+            log.error("获取token并写入文件失败：" + e.getMessage());
         }
 
     }

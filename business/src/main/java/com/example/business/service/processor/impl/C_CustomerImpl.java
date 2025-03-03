@@ -1,6 +1,7 @@
 package com.example.business.service.processor.impl;
 
 import com.example.business.constant.MsgType;
+import com.example.business.constant.SaveToken;
 import com.example.business.domain.*;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
@@ -45,7 +46,7 @@ public class C_CustomerImpl implements Processor {
         //请求erp获取详细信息
         WebClient webClientErp = WebClient.builder()
                 .baseUrl(apiParamsErp.url)
-                .defaultHeader("openToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJpc3YiLCJpc3MiOiJjaGFuamV0IiwidXNlcklkIjoiMzk0ODIzNjg2NDMwMzYxIiwib3JnSWQiOiIxMjM5MzQ2MjE1OTg1NDgwIiwiYWNjZXNzX3Rva2VuIjoiYmMtNTY2N2JmODItYTNiMS00ZDc5LWJiZWQtZmZiMTc1MzAyNTUwIiwiYXVkIjoiaXN2IiwibmJmIjoxNzQwNjY1NTY2LCJhcHBJZCI6IjU4Iiwic2NvcGUiOiJhdXRoX2FsbCIsImFwcEtleSI6IjFxeHlwT21yIiwiaWQiOiI4MTJhM2JlOS05M2ZmLTQxYTctODE3ZS05YzZhNjNlY2UwZWEiLCJleHAiOjE3NDExODM5NjYsImlhdCI6MTc0MDY2NTU2Niwib3JnQWNjb3VudCI6InVyaWhua20zMml1biJ9.tdGkJlLtwLS1d_L6t4RLLquy-JGoj2x5p6CkZeKGOMU")
+                .defaultHeader("openToken", SaveToken.erpToken)
                 .defaultHeader("appKey", apiParamsErp.appKey)
                 .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -90,7 +91,7 @@ public class C_CustomerImpl implements Processor {
         } else if ("02".equals(partnerTypeCode)) {
             //暂无
         } else {
-            log.error("未知的name！");
+            log.error("未知的code：" + partnerTypeCode);
         }
 
     }
