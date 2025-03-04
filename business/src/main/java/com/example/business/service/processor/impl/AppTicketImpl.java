@@ -34,7 +34,7 @@ public class AppTicketImpl implements Processor {
     /**
      * 大约一天刷新一次token
      */
-    public static long timeSeconds = 24 * 60 * 60 *1000L;
+
 
     @Override
     public void handle(MsgInfo msgInfo) {
@@ -45,8 +45,8 @@ public class AppTicketImpl implements Processor {
             String token = fileDetails.getToken();
 
             Date now = new Date();
-            //token文件为空或超过48小时，重新获取erp的token
-            if (StringUtils.isBlank(token) || (now.getTime() - lastModified.getTime()) > timeSeconds) {
+            //token文件为空或超过24小时，重新获取erp的token
+            if (StringUtils.isBlank(token) || (now.getTime() - lastModified.getTime()) > SaveToken.erpTimeSeconds) {
                 ErpAuthResponse erpToken = TokenUtil.getErpToken();
 //                SaveToken.erpAuthResponse = erpToken;
                 SaveToken.erpToken = erpToken.getValue().getAccessToken();

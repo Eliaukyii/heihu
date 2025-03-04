@@ -70,7 +70,7 @@ public class C_CustomerImpl implements Processor {
         //请求黑湖
         WebClient webClient = WebClient.builder()
                 .baseUrl(apiParamsHeihu.url)
-                .defaultHeader("X-AUTH", TokenUtil.getHeihuToken().getData().getAppAccessToken())
+                .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
