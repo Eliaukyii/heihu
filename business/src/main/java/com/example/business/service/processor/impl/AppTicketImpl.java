@@ -2,6 +2,7 @@ package com.example.business.service.processor.impl;
 
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.business.constant.MsgInfoData;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
@@ -28,10 +29,12 @@ import java.util.Date;
 @Slf4j
 public class AppTicketImpl implements Processor {
 
-    @Autowired
-    public static TokenFileParams tokenFileParams;
+    public static TokenFileParams tokenFileParams = new TokenFileParams();
 
-    public static long timeSeconds = 48 * 60 * 60 *1000L;
+    /**
+     * 大约一天刷新一次token
+     */
+    public static long timeSeconds = 24 * 60 * 60 *1000L;
 
     @Override
     public void handle(MsgInfo msgInfo) {
@@ -39,15 +42,18 @@ public class AppTicketImpl implements Processor {
         TokenFileDetail fileDetails = this.getFileDetails();
         if (fileDetails != null) {
             Date lastModified = fileDetails.getLastModified();
+            String token = fileDetails.getToken();
 
             Date now = new Date();
-            //超过48小时，重新获取erp的token
-            if ((now.getTime() - lastModified.getTime()) > timeSeconds) {
+            //token文件为空或超过48小时，重新获取erp的token
+            if (StringUtils.isBlank(token) || (now.getTime() - lastModified.getTime()) > timeSeconds) {
                 ErpAuthResponse erpToken = TokenUtil.getErpToken();
 //                SaveToken.erpAuthResponse = erpToken;
                 SaveToken.erpToken = erpToken.getValue().getAccessToken();
 
                 this.writeTokenToFile();
+            } else {
+                log.info("token文件存储的token未超期，无需重新获取erp的token");
             }
 
         }
@@ -58,6 +64,7 @@ public class AppTicketImpl implements Processor {
         try {
             Path tokenFilePath = Paths.get(tokenFileParams.filePath + tokenFileParams.fileName);
             Files.write(tokenFilePath, SaveToken.erpToken.getBytes());
+            log.info("token写入文件");
         } catch (IOException e) {
             log.error("获取token并写入文件失败：" + e.getMessage());
         }

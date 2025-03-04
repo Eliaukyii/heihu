@@ -70,8 +70,7 @@ public class TokenUtil {
         SaveToken.erpToken = result.getValue().getAccessToken();
 
         try {
-            JSON json = JSONUtil.parse(SaveToken.erpToken);
-            String tokenStr = json.toString();
+            String tokenStr = SaveToken.erpToken;
 
             //确保目录存在
             Files.createDirectories(Paths.get(tokenFileParams.filePath));

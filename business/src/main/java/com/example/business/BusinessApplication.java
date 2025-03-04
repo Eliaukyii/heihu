@@ -30,7 +30,7 @@ public class BusinessApplication {
 
     @PostConstruct
     public void init() {
-        //todo 读取token文件
+
         String tokenFilePath = "/var/app/files/token.txt";
         try {
             Files.createDirectories(Paths.get("/var/app/files/"));
@@ -45,8 +45,8 @@ public class BusinessApplication {
             // 读取整个文件内容到字符串
             byte[] bytes = Files.readAllBytes(Paths.get(tokenFilePath));
             String tokenStr = new String(bytes);
-            String token = objectMapper.readValue(tokenStr, String.class);
-            SaveToken.erpToken = token;
+            SaveToken.erpToken = tokenStr;
+            log.info("token文件中的token已读取到SaveToken.erpToken。");
         } catch (IOException e) {
             log.error("启动项目 - 读取token失败，文件路径：{}，失败原因：{}", tokenFilePath, e.getMessage());
         }
