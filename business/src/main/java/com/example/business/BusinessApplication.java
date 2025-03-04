@@ -45,6 +45,7 @@ public class BusinessApplication {
             // 读取整个文件内容到字符串
             byte[] bytes = Files.readAllBytes(Paths.get(tokenFilePath));
             String tokenStr = new String(bytes);
+            tokenStr = tokenStr.trim().replaceAll("\\s+", "");
             SaveToken.erpToken = tokenStr;
             log.info("token文件中的token已读取到SaveToken.erpToken。");
         } catch (IOException e) {

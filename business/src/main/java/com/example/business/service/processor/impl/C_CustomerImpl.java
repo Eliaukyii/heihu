@@ -88,6 +88,16 @@ public class C_CustomerImpl implements Processor {
 
         } else if ("01".equals(partnerTypeCode)){
 
+            map.put("ownerCode", "admin");
+            //todo .retrieve().bodyToMono(String.class)能否去掉？
+            String heihuResponse = webClient.post()
+                    .uri(apiParamsHeihu.customerUri)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+            log.info("客户 - 请求黑湖响应数据：" + heihuResponse);
+
         } else if ("02".equals(partnerTypeCode)) {
             //暂无
         } else {
