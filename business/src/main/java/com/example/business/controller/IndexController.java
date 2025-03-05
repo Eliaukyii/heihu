@@ -1,9 +1,7 @@
 package com.example.business.controller;
 
-import com.example.business.constant.MsgInfoData;
-import com.example.business.constant.MsgType;
-import com.example.business.domain.Msg;
-import com.example.business.domain.MsgInfo;
+import com.example.business.domain.msg.Msg;
+import com.example.business.domain.msg.MsgInfo;
 import com.example.business.service.processor.ProcessorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

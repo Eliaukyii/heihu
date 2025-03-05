@@ -1,7 +1,7 @@
 package com.example.business.service.processor.impl;
 
 import com.example.business.constant.MsgType;
-import com.example.business.domain.MsgInfo;
+import com.example.business.domain.msg.MsgInfo;
 import com.example.business.service.processor.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.example.business.domain;
+package com.example.business.domain.msg;
 
 import lombok.Data;
 

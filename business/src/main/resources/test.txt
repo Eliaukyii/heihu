@@ -1,3 +1,38 @@
+//物料定义
+{
+    "param": {
+       "Code": "20250305001",
+       "SelectFields": "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity"
+    }
+}
+
+//新增存货
+{
+    "dto": {
+        "Code": "CH250305",
+        "Name": "存货250305",
+        "Specification": "10g",
+        "InventoryClass": {
+            "Code": "01", "Name": "香烟"
+        },
+        "Unit": {
+            "Code": "000", "Name":"盒"
+        },
+        "IsBatch": "是",
+        "BatchCodeRule": "sku001",
+        "Warehouse": "ZTCPK-002",
+        "InvLocation": "",
+        "Finfout": "",
+        "ControledLevel": "",
+        "FinfoutAttr": "",
+        "SafeQuantity": "",
+    }
+}
+
+
+
+
+//供应商
 {
     "dto": {
         "Code": "test0301001", "Name": "供应商测试001",

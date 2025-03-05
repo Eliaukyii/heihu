@@ -1,20 +1,16 @@
 package com.example.business.service.processor.impl;
 
-import cn.hutool.core.date.DateUnit;
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.example.business.constant.MsgInfoData;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
-import com.example.business.domain.MsgInfo;
-import com.example.business.domain.TokenFileDetail;
+import com.example.business.domain.msg.MsgInfo;
+import com.example.business.domain.token.TokenFileDetail;
 import com.example.business.domain.params.TokenFileParams;
 import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.service.processor.Processor;
 import com.example.business.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.PUBLIC_MEMBER;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;

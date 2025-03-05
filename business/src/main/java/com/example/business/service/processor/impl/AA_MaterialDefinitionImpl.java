@@ -7,19 +7,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 物料清单（新增）
+ * 物料定义（存货修改）
  */
 @Component
 @Slf4j
-public class B_MaterialListImpl implements Processor {
+public class AA_MaterialDefinitionImpl implements Processor {
+
+
     @Override
     public void handle(MsgInfo msgInfo) {
         //代码实现逻辑
-        log.info("程序走至：物料清单-新增");
+        log.info("程序走至：物料定义-存货修改");
     }
 
     @Override
     public String getType() {
-        return MsgType.BOM_AUDIT;
+        return MsgType.INVENTORY_UPDATE;
     }
 }

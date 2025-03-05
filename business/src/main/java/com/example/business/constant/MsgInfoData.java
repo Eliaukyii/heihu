@@ -1,6 +1,6 @@
 package com.example.business.constant;
 
-import com.example.business.domain.MsgInfo;
+import com.example.business.domain.msg.MsgInfo;
 import lombok.Data;
 
 @Data

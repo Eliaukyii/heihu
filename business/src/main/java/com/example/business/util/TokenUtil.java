@@ -1,19 +1,14 @@
 package com.example.business.util;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSON;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.example.business.constant.MsgInfoData;
 import com.example.business.constant.SaveToken;
-import com.example.business.domain.*;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.params.TokenFileParams;
+import com.example.business.domain.request.AuthRequest;
 import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;

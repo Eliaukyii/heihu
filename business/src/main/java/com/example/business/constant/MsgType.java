@@ -1,7 +1,5 @@
 package com.example.business.constant;
 
-import com.example.business.domain.MsgInfo;
-
 public class MsgType {
 
 //    public static String APP_TICKET = "APP_TICKET";
@@ -17,6 +15,11 @@ public class MsgType {
      * 存货新增
      */
     public static String INVENTORY_CREATE = "Inventory_Create";
+
+    /**
+     * 存货修改
+     */
+    public static String INVENTORY_UPDATE = "Inventory_Update";
 
     /**
      * 物料清单审核

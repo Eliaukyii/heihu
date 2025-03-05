@@ -2,13 +2,15 @@ package com.example.business.service.processor.impl;
 
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
-import com.example.business.domain.*;
+import com.example.business.domain.msg.MsgInfo;
+import com.example.business.domain.msg.MsgInfoBizContent;
+import com.example.business.domain.msg.MsgInfoBizContentPartnerType;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
+import com.example.business.domain.request.RequestParamBodyErp;
+import com.example.business.domain.request.RequestParamErp;
 import com.example.business.service.processor.Processor;
-import com.example.business.util.TokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -52,16 +54,19 @@ public class C_CustomerImpl implements Processor {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        HashMap<String, Object> erpMap = new HashMap<>();
-        HashMap<String, Object> map1 = new HashMap<>();
-        map1.put("Code", code);
-        map1.put("SelectFields", "id,code,name,PartnerClass.Code,PartnerType.Code");
-        erpMap.put("param", map1);
+//        HashMap<String, Object> erpMap = new HashMap<>();
+//        HashMap<String, Object> map1 = new HashMap<>();
+//        map1.put("Code", code);
+//        map1.put("SelectFields", "id,code,name,PartnerClass.Code,PartnerType.Code");
+//        erpMap.put("param", map1);
+
+        String SelectFields = "id,code,name,PartnerClass.Code,PartnerType.Code";
+        RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
 
         ArrayList<Object> list = new ArrayList<>();
         List<Object> ErpResponseData = webClientErp.post()
                 .uri(apiParamsErp.customerUri)
-                .bodyValue(erpMap)
+                .bodyValue(requestParamErp)
                 .retrieve()
                 .bodyToMono(list.getClass())
                 .block();
