@@ -1,5 +1,6 @@
 package com.example.business.domain.msg;
 
+import com.example.business.domain.other.Inventory;
 import lombok.Data;
 
 @Data
@@ -18,5 +19,7 @@ public class MsgInfoBizContent {
     private String ts;
 
     private String appTicket;
+
+    private Inventory inventory;
 
 }

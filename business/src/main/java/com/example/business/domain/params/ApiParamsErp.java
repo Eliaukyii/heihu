@@ -13,10 +13,12 @@ public class ApiParamsErp {
     public static String appSecret;
     public static String certificate;
     public static String customerUri;
+    public static String bomUri;
+    public static String routingUri;
 
 
     @Value("${paramsErp.url}")
-    public void setUrl(String url){
+    public void setUrl(String url) {
         ApiParamsErp.url = url;
     }
 
@@ -45,6 +47,15 @@ public class ApiParamsErp {
         ApiParamsErp.customerUri = customerUri;
     }
 
+    @Value("${paramsErp.bomUri}")
+    public void setBomUri(String bomUri) {
+        ApiParamsErp.bomUri = bomUri;
+    }
+
+    @Value("${paramsErp.routingUri}")
+    public void setRoutingUri(String routingUri) {
+        ApiParamsErp.routingUri = routingUri;
+    }
 
 
 }

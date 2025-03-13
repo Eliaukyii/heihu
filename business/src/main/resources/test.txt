@@ -1,3 +1,53 @@
+
+
+
+
+//物料清单
+{
+    "materialCode": "20250305001",
+    "productRate": "1",
+    "processRoute": "",
+
+    "reportingMethods": [],
+    "version": "1.10",
+    "defaultVersion": "否",
+    "warehousing": "是",
+    "autoWarehousingFlag": "是",
+    "bomInputMaterials": [
+        {
+
+            "bomInputMaterialLines": [
+                {
+                    "materialCode": "002B-Al-00051-raw",
+                    "inputAmountNumerator": "1",
+                    "inputAmountDenominator": "1",
+                    "lossRate": "0",
+                    "pickMode": "按需领料",
+                    "inputProcessNum": "",
+                }
+            ],
+            "bomFeedingControls": [
+
+            ]
+        }
+    ]
+}
+
+//查询工艺路线
+{
+    "param": {
+        "Name": "D3DC3"
+    }
+}
+
+//查询物料清单
+{
+    "dto": {
+       "Code": "002B-Ni0010-raw"
+     }
+}
+
+
 //物料定义
 {
     "param": {
