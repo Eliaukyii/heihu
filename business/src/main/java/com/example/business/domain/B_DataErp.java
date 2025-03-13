@@ -1,8 +1,8 @@
 package com.example.business.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class B_DataErp {
     /**
      * 成品率
      */
-    private String YieldRate;
+    private Double YieldRate;
 
     /**
      * 工艺路线
@@ -27,29 +27,29 @@ public class B_DataErp {
     /**
      * 工序？
      */
-    private ArrayList<Map<String, Object>> BOMProcessDTOs;
+    @JsonProperty("BOMProcessDTOs")
+    private List<Map<String, Object>> BOMProcessDTOs;
 
     /**
      * 版本号
      */
-    private String version;
+    private String Version;
 
     /**
      * 默认BOM
      */
-    private String IsCostBOM;
+    private Boolean IsCostBOM;
 
     /**
      * 子件列表？
      */
+    @JsonProperty("BOMChildDTOs")
     private List<B_DataChildErp> BOMChildDTOs;
 
     /**
      * 生产数量
      */
     private String ProduceQuantity;
-
-
 
 
 }

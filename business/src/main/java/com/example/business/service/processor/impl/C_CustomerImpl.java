@@ -7,7 +7,6 @@ import com.example.business.domain.msg.MsgInfoBizContent;
 import com.example.business.domain.msg.MsgInfoBizContentPartnerType;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
-import com.example.business.domain.request.RequestParamBodyErp;
 import com.example.business.domain.request.RequestParamErp;
 import com.example.business.service.processor.Processor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,12 +52,6 @@ public class C_CustomerImpl implements Processor {
                 .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-
-//        HashMap<String, Object> erpMap = new HashMap<>();
-//        HashMap<String, Object> map1 = new HashMap<>();
-//        map1.put("Code", code);
-//        map1.put("SelectFields", "id,code,name,PartnerClass.Code,PartnerType.Code");
-//        erpMap.put("param", map1);
 
         String SelectFields = "id,code,name,PartnerClass.Code,PartnerType.Code";
         RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);

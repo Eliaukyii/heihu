@@ -21,17 +21,17 @@ public class B_DataChildHeihu {
     /**
      * 分子
      */
-    private String inputAmountNumerator;
+    private Integer inputAmountNumerator;
 
     /**
      * 分母
      */
-    private String inputAmountDenominator;
+    private Integer inputAmountDenominator;
 
     /**
      * 损耗率
      */
-    private String lossRate;
+    private Double lossRate;
 
     /**
      * 领料方式
@@ -51,7 +51,7 @@ public class B_DataChildHeihu {
     /**
      * 投料管控
      */
-    private B_BomFeedingControlsHeihu bomFeedingControls;
+    private List<B_BomFeedingControlsHeihu> bomFeedingControls;
 
 
 }

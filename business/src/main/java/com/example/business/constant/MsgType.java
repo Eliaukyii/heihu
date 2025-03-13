@@ -2,9 +2,6 @@ package com.example.business.constant;
 
 public class MsgType {
 
-//    public static String APP_TICKET = "APP_TICKET";
-
-//    public static String MSG_TYPE = MsgType.MSG_INFO.getMsgType();
 
     /**
      * APP_TICKET

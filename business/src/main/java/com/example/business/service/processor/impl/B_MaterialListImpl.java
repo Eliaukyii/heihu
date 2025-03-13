@@ -1,6 +1,6 @@
 package com.example.business.service.processor.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.*;
@@ -9,8 +9,12 @@ import com.example.business.domain.other.Inventory;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.service.processor.Processor;
-import com.sun.org.apache.bcel.internal.classfile.Code;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -28,6 +32,8 @@ import java.util.Map;
 @Slf4j
 public class B_MaterialListImpl implements Processor {
 
+    @Autowired
+    private ObjectMapper objectMapperUpper;
     public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
     public static ApiParamsErp apiParamsErp = new ApiParamsErp();
 
@@ -37,7 +43,7 @@ public class B_MaterialListImpl implements Processor {
         log.info("程序走至：物料清单");
         Inventory inventory = msgInfo.getBizContent().getInventory();
         if (inventory == null || inventory.getCode() == null) {
-            log.error("物料清单相关数据有误，未找到物料code");
+            log.error("物料清单相关数据有误，未找到父物料code");
         }
         String code = inventory.getCode();
 
@@ -48,37 +54,62 @@ public class B_MaterialListImpl implements Processor {
                 .defaultHeader("appKey", apiParamsErp.appKey)
                 .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                //
+//                .exchangeStrategies(ExchangeStrategies.builder()
+//                        .codecs(configurer -> configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapperUpper)))
+//                        .build())
                 .build();
 
         //请求erp的物料清单数据
         Map<String, Object> dtoMap = new HashMap<>();
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("Code", code);
-        dtoMap.put("param", requestMap);
+        dtoMap.put("dto", requestMap);
 
-        B_DataErp erpResponseData = webClientErp.post()
+        String responseData = webClientErp.post()
                 .uri(apiParamsErp.bomUri)
-                .bodyValue(requestMap)
+                .bodyValue(dtoMap)
                 .retrieve()
-                .bodyToMono(B_DataErp.class)
+                .bodyToMono(String.class)
                 .block();
+
+        List<B_DataErp> listDataErp = new ArrayList<>();
+        try {
+            listDataErp = objectMapperUpper.readValue(responseData, new TypeReference<List<B_DataErp>>() {
+            });
+        } catch (JsonProcessingException e) {
+            log.error("物料清单 - 数据转换失败");
+        }
+
+        if (CollectionUtils.isEmpty(listDataErp)) {
+            log.error("未查询到相应父物料编号'{}'下的物料清单", code);
+        }
+
+        B_DataErp dataErp = listDataErp.get(0);
+        log.info("responseData：{}" + responseData);
+        log.info("listDataErp：{}" + listDataErp);
+        log.info("dataErp：{}" + dataErp);
 
         //根据Name查询工艺路线列表
-        String name = erpResponseData.getRouting().get("Name").toString(); //工艺路线名
-        Map<String, Object> paramMap = new HashMap<>();
-        Map<String, Object> requestMap2 = new HashMap<>();
-        requestMap2.put("Name", name);
-        dtoMap.put("param", requestMap2);
+        List<Map<String, Object>> routingList = null;
+        if (dataErp.getRouting() != null) {
+            String name = dataErp.getRouting().get("Name").toString(); //工艺路线名
+            Map<String, Object> paramMap = new HashMap<>();
+            Map<String, Object> requestMap2 = new HashMap<>();
+            requestMap2.put("Name", name);
+            paramMap.put("param", requestMap2);
 
-        List<Map<String, Object>> list = new ArrayList<>();  //存储工艺路线列表
-        list = webClientErp.post()
-                .uri(apiParamsErp.routingUri)
-                .bodyValue(paramMap)
-                .retrieve()
-                .bodyToMono(list.getClass())
-                .block();
+            routingList = webClientErp.post()
+                    .uri(apiParamsErp.routingUri)
+                    .bodyValue(paramMap)
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {
+                    })
+                    .block();
 
-        B_DataHeihu data = this.disposeData(erpResponseData, list);
+        }
+
+        B_DataHeihu data = this.disposeData(dataErp, routingList);
         log.info("物料清单，订阅审核消息，即将在黑湖新增的数据：" + data);
 
         //请求黑湖
@@ -96,21 +127,27 @@ public class B_MaterialListImpl implements Processor {
                 .block();
         log.info("物料清单，订阅审核消息，在黑湖新增 - 请求黑湖响应数据：" + heihuResponse);
 
-
     }
 
-    private B_DataHeihu disposeData(B_DataErp erp, List<Map<String, Object>> list) {
+    private B_DataHeihu disposeData(B_DataErp erp, List<Map<String, Object>> routingList) {
         Integer seq = 10;
         Integer lineSeq = 1;
 
         B_DataHeihu heihu = new B_DataHeihu();
         heihu.setMaterialCode(erp.getCode());
         heihu.setProductRate(erp.getYieldRate());
-        heihu.setProcessRoute(list.get(list.size()-1).get("Code").toString());
+        if (CollectionUtils.isNotEmpty(routingList)) {
+            heihu.setProcessRoute(routingList.get(routingList.size()-1).get("Code").toString());
+        }
+
         //todo workReportProcessNum待定
         heihu.setReportingMethods(new Integer[]{5, 6});
         heihu.setVersion(erp.getVersion());
-        heihu.setDefaultVersion(erp.getIsCostBOM());
+        Integer isCostBOM = 0;
+        if (erp.getIsCostBOM() != null) {
+            isCostBOM = erp.getIsCostBOM() ? 1 : 0;
+        }
+        heihu.setDefaultVersion(isCostBOM);
         heihu.setWarehousing(1);
         heihu.setAutoWarehousingFlag(1);
 
@@ -126,9 +163,15 @@ public class B_MaterialListImpl implements Processor {
             heihuChild.setLossRate(erpChild.getWasteRate());
             heihuChild.setPickMode("1");  //按需领料
             heihuChild.setSpecificProcessInput(1);
-            heihuChild.setInputProcessNum(list.get(0).get("Code").toString());  //工艺路线首道序Code
+
+            if (CollectionUtils.isNotEmpty(routingList)) {
+                heihuChild.setInputProcessNum(routingList.get(0).get("Code").toString());  //工艺路线首道序Code
+            }
+
+            ArrayList<B_BomFeedingControlsHeihu> bomFeedingControlsHeihuList = new ArrayList<>();
             B_BomFeedingControlsHeihu bomFeedingControlsHeihu = new B_BomFeedingControlsHeihu(lineSeq++, 0, 1);
-            heihuChild.setBomFeedingControls(bomFeedingControlsHeihu);
+            bomFeedingControlsHeihuList.add(bomFeedingControlsHeihu);
+            heihuChild.setBomFeedingControls(bomFeedingControlsHeihuList);
 
             heihuChildList.add(heihuChild);
         }

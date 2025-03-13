@@ -1,10 +1,8 @@
 package com.example.business.domain;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 public class B_DataHeihu {
@@ -18,7 +16,7 @@ public class B_DataHeihu {
     /**
      * 成品率（%）
      */
-    private String productRate;
+    private Double productRate;
 
     /**
      * 工艺路线
@@ -38,7 +36,7 @@ public class B_DataHeihu {
     /**
      * 默认版本
      */
-    private String defaultVersion;
+    private Integer defaultVersion;
 
     /**
      * 是否入库
@@ -58,7 +56,7 @@ public class B_DataHeihu {
     /**
      * 多产出物料行，仅存报工工序号：workReportProcessNum
      */
-    private List<Map<String, Object>> bomOutputMaterials;
+//    private List<Map<String, Object>> bomOutputMaterials;
 
 
 

@@ -20,14 +20,11 @@ public class SaveToken {
      */
     public static long erpTimeSeconds = 24 * 60 * 60 *1000L;
 
-    public static ErpAuthResponse erpAuthResponse;
 
     /**
      * 存储erp的token，有完整的一套token存储机制
      */
     public static String erpToken;
-
-    public static HeihuAuthResponse heihuAuthResponse;
 
     /**
      * 存储黑湖token

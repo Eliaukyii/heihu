@@ -1,17 +1,13 @@
 package com.example.business;
 
 import com.example.business.constant.SaveToken;
-import com.example.business.domain.params.TokenFileParams;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,12 +17,6 @@ import java.nio.file.Paths;
 @EnableScheduling
 @Slf4j
 public class BusinessApplication {
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-//    @Autowired
-    public static TokenFileParams tokenFileParams = new TokenFileParams();
 
     @PostConstruct
     public void init() {

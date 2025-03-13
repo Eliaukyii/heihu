@@ -28,7 +28,6 @@ public class ProcessorService {
         String msgType = msgInfo.getMsgType();
         Processor processor = processorMap.get(msgType);
         if (processor == null) {
-//            throw new IllegalArgumentException("未知类型: " + msgType);
             log.error("未知类型: " + msgType);
             return;
         }
