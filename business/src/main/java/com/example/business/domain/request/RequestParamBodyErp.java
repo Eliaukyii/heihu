@@ -9,4 +9,5 @@ public class RequestParamBodyErp {
 
     private String SelectFields;
 
+    private String voucherCode;
 }

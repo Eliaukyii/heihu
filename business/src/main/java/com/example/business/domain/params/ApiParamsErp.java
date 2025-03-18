@@ -15,6 +15,8 @@ public class ApiParamsErp {
     public static String customerUri;
     public static String bomUri;
     public static String routingUri;
+    public static String saleOrderUri;
+    public static String purchaseOrderUri;
 
 
     @Value("${paramsErp.url}")
@@ -57,5 +59,14 @@ public class ApiParamsErp {
         ApiParamsErp.routingUri = routingUri;
     }
 
+    @Value("${paramsErp.saleOrderUri}")
+    public void setSaleOrderUri(String saleOrderUri) {
+        ApiParamsErp.saleOrderUri = saleOrderUri;
+    }
+
+    @Value("${paramsErp.purchaseOrderUri}")
+    public void setPurchaseOrderUri(String purchaseOrderUri) {
+        ApiParamsErp.purchaseOrderUri = purchaseOrderUri;
+    }
 
 }

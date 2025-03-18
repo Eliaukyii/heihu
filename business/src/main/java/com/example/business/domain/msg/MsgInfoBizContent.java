@@ -22,4 +22,6 @@ public class MsgInfoBizContent {
 
     private Inventory inventory;
 
+    private String voucherCode;
+
 }
