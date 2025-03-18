@@ -18,4 +18,9 @@ public class RequestParamErp {
         this.param.setSelectFields(selectFields);
     }
 
+    public RequestParamErp(String voucherCode) {
+        this.param = new RequestParamBodyErp();
+        this.param.setVoucherCode(voucherCode);
+    }
+
 }
