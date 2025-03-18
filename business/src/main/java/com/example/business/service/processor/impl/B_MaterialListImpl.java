@@ -1,5 +1,8 @@
 package com.example.business.service.processor.impl;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
@@ -44,6 +47,7 @@ public class B_MaterialListImpl implements Processor {
         Inventory inventory = msgInfo.getBizContent().getInventory();
         if (inventory == null || inventory.getCode() == null) {
             log.error("物料清单相关数据有误，未找到父物料code");
+            return;
         }
         String code = inventory.getCode();
 
@@ -54,10 +58,6 @@ public class B_MaterialListImpl implements Processor {
                 .defaultHeader("appKey", apiParamsErp.appKey)
                 .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                //
-//                .exchangeStrategies(ExchangeStrategies.builder()
-//                        .codecs(configurer -> configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapperUpper)))
-//                        .build())
                 .build();
 
         //请求erp的物料清单数据
@@ -79,16 +79,15 @@ public class B_MaterialListImpl implements Processor {
             });
         } catch (JsonProcessingException e) {
             log.error("物料清单 - 数据转换失败");
+            return;
         }
 
         if (CollectionUtils.isEmpty(listDataErp)) {
             log.error("未查询到相应父物料编号'{}'下的物料清单", code);
+            return;
         }
 
-        B_DataErp dataErp = listDataErp.get(0);
-        log.info("responseData：{}" + responseData);
-        log.info("listDataErp：{}" + listDataErp);
-        log.info("dataErp：{}" + dataErp);
+        B_DataErp dataErp = listDataErp.get(listDataErp.size() - 1);
 
         //根据Name查询工艺路线列表
         List<Map<String, Object>> routingList = null;
@@ -125,6 +124,7 @@ public class B_MaterialListImpl implements Processor {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
+        //todo 操作失败写入日志
         log.info("物料清单，订阅审核消息，在黑湖新增 - 请求黑湖响应数据：" + heihuResponse);
 
     }
@@ -165,7 +165,11 @@ public class B_MaterialListImpl implements Processor {
             heihuChild.setSpecificProcessInput(1);
 
             if (CollectionUtils.isNotEmpty(routingList)) {
-                heihuChild.setInputProcessNum(routingList.get(0).get("Code").toString());  //工艺路线首道序Code
+                //工艺路线首道序Code
+                JSONArray routingDetails = JSONUtil.parseArray(routingList.get(routingList.size() - 1).get("RoutingDetails"));
+                String process = JSONUtil.parseObj(routingDetails.get(0)).get("Process").toString();
+                String code = JSONUtil.parseObj(process).get("Code").toString();
+                heihuChild.setInputProcessNum(code);
             }
 
             ArrayList<B_BomFeedingControlsHeihu> bomFeedingControlsHeihuList = new ArrayList<>();

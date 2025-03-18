@@ -24,6 +24,11 @@ public class B_DataHeihu {
     private String processRoute;
 
     /**
+     * 报工工序号
+     */
+    private String workReportProcessNum;
+
+    /**
      * 报工方式
      */
     private Integer[] reportingMethods;
@@ -52,11 +57,6 @@ public class B_DataHeihu {
      * 子项物料编号
      */
     private List<B_DataChildHeihu> bomInputMaterials;
-
-    /**
-     * 多产出物料行，仅存报工工序号：workReportProcessNum
-     */
-//    private List<Map<String, Object>> bomOutputMaterials;
 
 
 

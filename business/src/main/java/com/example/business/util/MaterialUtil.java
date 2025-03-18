@@ -67,7 +67,7 @@ public class MaterialUtil {
     }
 
     public static MaterialDefinitionHeihu disposeData(List<MaterialDefinitionErp> list) {
-        MaterialDefinitionErp erp = list.get(0);
+        MaterialDefinitionErp erp = list.get(list.size() - 1) ;
         MaterialDefinitionHeihu heihu = new MaterialDefinitionHeihu();
         heihu.setMaterialCode(erp.getCode());
         heihu.setMaterialName(erp.getName());
@@ -91,7 +91,7 @@ public class MaterialUtil {
             //先进先出也不传或传否
 //            heihu.setFifoEnabled("否");
         } else {
-            log.info("不能识别的批次管理标志，仅识别True、False");
+            log.error("不能识别的批次管理标志，仅识别True、False，相关erp信息：{}", erp);
         }
 
         heihu.setDefaultWarehouseCode(erp.getWarehouse().getCode());
