@@ -58,6 +58,6 @@ public class B_DataHeihu {
      */
     private List<B_DataChildHeihu> bomInputMaterials;
 
-
+    private Integer status;
 
 }

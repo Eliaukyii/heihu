@@ -1,5 +1,6 @@
 package com.example.business.util;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.MaterialDefinitionErp;
 import com.example.business.domain.MaterialDefinitionHeihu;
@@ -7,6 +8,7 @@ import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
+import com.example.business.domain.response.HeihuAuthResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -39,13 +41,18 @@ public class MaterialUtil {
         RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
 
         List<MaterialDefinitionErp> list = new ArrayList<>();
-        List<MaterialDefinitionErp> ErpResponseData = webClientErp.post()
+        list = webClientErp.post()
                 .uri(apiParamsErp.customerUri)
                 .bodyValue(requestParamErp)
                 .retrieve()
                 .bodyToMono(list.getClass())
                 .block();
-        log.info("物料定义，存货新增/修改 - 根据code请求erp的响应数据：" + ErpResponseData);
+        if (CollectionUtils.isEmpty(list)) {
+            log.error("未查询到erp中存货详情");
+            return;
+        }
+
+        log.info("物料定义，存货新增/修改 - 根据code请求erp的响应数据：" + list);
 
         //组装数据
         MaterialDefinitionHeihu data = MaterialUtil.disposeData(list);
@@ -57,13 +64,15 @@ public class MaterialUtil {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        String heihuResponse = webClient.post()
+        HeihuAuthResponse heihuResponse = webClient.post()
                 .uri(apiParamsHeihu.materialUri)
                 .bodyValue(data)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(HeihuAuthResponse.class)
                 .block();
-        log.info("物料定义，存货新增/修改 - 请求黑湖响应数据：" + heihuResponse);
+        if (!heihuResponse.getCode().equals("200")) {
+            log.error("物料定义，存货新增/修改失败，失败信息：" + heihuResponse.getMessage());
+        }
     }
 
     public static MaterialDefinitionHeihu disposeData(List<MaterialDefinitionErp> list) {

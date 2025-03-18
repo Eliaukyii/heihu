@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class HeihuAuthResponse {
 
-    private HeihuAuthResponseDataBody data;
+    private Object data;
 
     private String code;
 

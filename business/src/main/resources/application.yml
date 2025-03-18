@@ -21,6 +21,8 @@ paramsHeihu:
   appSecret: b4c45fa0f60e41de9769ba3055ce6ed4
   factoryNumber: 60894247
 
+  processUri: /med/open/v2/process_route/_detail               #查询工艺路线接口
+
 paramsErp:
   url: https://openapi.chanjet.com
   uri: /v1/common/auth/selfBuiltApp/generateToken

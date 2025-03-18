@@ -2,13 +2,21 @@ package com.example.business.constant;
 
 import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponse;
+import com.example.business.domain.response.HeihuAuthResponseDataBody;
 import com.example.business.util.TokenUtil;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 @Slf4j
 public class SaveToken {
+
+    @Autowired
+    private static ObjectMapper objectMapper;
 
     /**
      * 黑湖token，设置有效期为1小时
@@ -36,12 +44,18 @@ public class SaveToken {
      */
     private static Date heihuTokenTime;
 
-    //todo 如果多个线程同时进入，前者拿着token去请求，后者把token刷新了，前者的token会失效吗？
+
     public static String getHeihuToken(){
         Date now = new Date();
         if (heihuTokenTime == null || (now.getTime() - heihuTokenTime.getTime()) > heihuTimeSeconds) {
             HeihuAuthResponse response = TokenUtil.getHeihuToken();
-            heihuToken =  response.getData().getAppAccessToken();
+            HeihuAuthResponseDataBody dataBody = null;
+            try {
+                dataBody = objectMapper.readValue(response.getData().toString(), HeihuAuthResponseDataBody.class);
+            } catch (Exception e) {
+                log.error("获取黑湖token时发生异常，异常信息：" + e.getMessage());
+            }
+            heihuToken =  dataBody.getAppAccessToken();
             heihuTokenTime = new Date();
             log.info("黑湖token过期 - 重新请求的数据：" + heihuToken);
             log.info("黑湖token过期 - 重新请求的时间：" + heihuTokenTime);
