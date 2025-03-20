@@ -112,7 +112,7 @@ public class B_MaterialListImpl implements Processor {
                 return;
             }
             try {
-                processData = objectMapper.readValue(response.getData().toString(), B_ProcessData.class);
+                processData = objectMapper.convertValue(response.getData(), B_ProcessData.class);
             } catch (Exception e) {
                 log.error("工艺路线反序列化失败，失败信息：" + e.getMessage());
                 return;
