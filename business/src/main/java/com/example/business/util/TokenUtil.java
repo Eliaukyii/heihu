@@ -1,6 +1,7 @@
 package com.example.business.util;
 
 import com.example.business.constant.MsgInfoData;
+import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
@@ -33,7 +34,8 @@ public class TokenUtil {
 
     public static ErpAuthResponse getErpToken(){
 
-        if (MsgInfoData.MSG_INFO==null || MsgInfoData.MSG_INFO.getBizContent()==null || MsgInfoData.MSG_INFO.getBizContent().getAppTicket()==null){
+        if (MsgInfoData.MSG_INFO == null || MsgInfoData.MSG_INFO.getBizContent() == null || MsgInfoData.MSG_INFO.getBizContent().getAppTicket() == null){
+            log.error("{}类型的消息推送格式有误", MsgType.APP_TICKET);
             return new ErpAuthResponse();
         }
 
@@ -101,7 +103,7 @@ public class TokenUtil {
                 .bodyValue(map)
                 .retrieve()
                 .bodyToMono(HeihuAuthResponse.class)
-                .block(); //todo .block()谨慎使用，后续再分析是否使用
+                .block();
         log.info("请求黑湖-token响应数据：" + result);
 
         return result;

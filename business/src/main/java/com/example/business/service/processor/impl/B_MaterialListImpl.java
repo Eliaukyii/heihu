@@ -20,6 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.rmi.ServerException;
 import java.util.*;
 
 /**
@@ -124,8 +127,13 @@ public class B_MaterialListImpl implements Processor {
 
         }
 
-        B_DataHeihu data = this.disposeData(dataErp, processData);
-        log.info("物料清单，订阅审核消息，即将在黑湖新增的数据：" + data);
+        B_DataHeihu data = null;
+        try {
+            data = this.disposeData(dataErp, processData);
+        } catch (Exception e) {
+            log.error("物料清单数据异常，异常信息：{}", e.getMessage());
+            return;
+        }
 
         //请求黑湖
         WebClient webClient = WebClient.builder()
@@ -147,7 +155,7 @@ public class B_MaterialListImpl implements Processor {
 
     }
 
-    private B_DataHeihu disposeData(B_DataErp erp, B_ProcessData processData) {
+    private B_DataHeihu disposeData(B_DataErp erp, B_ProcessData processData) throws Exception {
         Integer seq = 10;
         Integer lineSeq = 1;
 
@@ -157,7 +165,13 @@ public class B_MaterialListImpl implements Processor {
 
         B_DataHeihu heihu = new B_DataHeihu();
         heihu.setMaterialCode(erp.getCode());
-        heihu.setProductRate(erp.getYieldRate());
+        //成品率转换
+        BigDecimal bigDecimal = new BigDecimal(erp.getYieldRate());
+        BigDecimal convert = bigDecimal.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+        if (convert.compareTo(BigDecimal.ZERO) <= 0 || convert.compareTo(new BigDecimal("1000")) > 0) {
+            throw new ServerException("成品率（%）必须大于0，且小于等于1000");
+        }
+        heihu.setProductRate(convert.toString());
 
         if (flagProcess) {
             heihu.setProcessRoute(erp.getRouting().get("Code").toString());
@@ -193,7 +207,13 @@ public class B_MaterialListImpl implements Processor {
             heihuChild.setMaterialCode(erpChild.getInventory().getCode());
             heihuChild.setInputAmountNumerator(erpChild.getProduceQuantity());
             heihuChild.setInputAmountDenominator(erpChild.getRequiredQuantity());
-            heihuChild.setLossRate(erpChild.getWasteRate());
+
+            BigDecimal bigDecimal2 = new BigDecimal(erpChild.getWasteRate());
+            BigDecimal convert2 = bigDecimal2.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+            if (convert.compareTo(BigDecimal.ZERO) < 0 || convert.compareTo(new BigDecimal("100")) >= 0) {
+                throw new ServerException("子物料损耗率（%）必须大于等于0，且小于100");
+            }
+            heihuChild.setLossRate(convert2.toString());
             heihuChild.setPickMode("1");  //按需领料
             heihuChild.setSpecificProcessInput(1);
 

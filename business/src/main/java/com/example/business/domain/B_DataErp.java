@@ -17,7 +17,7 @@ public class B_DataErp {
     /**
      * 成品率
      */
-    private Double YieldRate;
+    private String YieldRate;
 
     /**
      * 工艺路线

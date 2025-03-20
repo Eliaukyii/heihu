@@ -14,7 +14,7 @@ public class B_DataChildErp {
     /**
      * 损耗率%
      */
-    private Double WasteRate;
+    private String WasteRate;
 
     /**
      * 生产数量

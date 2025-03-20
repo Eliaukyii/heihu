@@ -16,7 +16,7 @@ public class B_DataHeihu {
     /**
      * 成品率（%）
      */
-    private Double productRate;
+    private String productRate;
 
     /**
      * 工艺路线
