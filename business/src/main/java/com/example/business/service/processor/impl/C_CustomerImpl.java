@@ -75,7 +75,6 @@ public class C_CustomerImpl implements Processor {
         //00供应商，01客户，02客户/供应商
         if ("00".equals(partnerTypeCode)) {
 
-            //todo .retrieve().bodyToMono(String.class)能否去掉？
             String heihuResponse = webClient.post()
                     .uri(apiParamsHeihu.supplierUri)
                     .bodyValue(map)
@@ -87,7 +86,7 @@ public class C_CustomerImpl implements Processor {
         } else if ("01".equals(partnerTypeCode)){
 
             map.put("ownerCode", "admin");
-            //todo .retrieve().bodyToMono(String.class)能否去掉？
+
             String heihuResponse = webClient.post()
                     .uri(apiParamsHeihu.customerUri)
                     .bodyValue(map)

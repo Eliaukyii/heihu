@@ -5,6 +5,8 @@ import com.example.business.constant.SaveToken;
 import com.example.business.domain.MaterialDefinitionErp;
 import com.example.business.domain.MaterialDefinitionHeihu;
 import com.example.business.domain.msg.MsgInfo;
+import com.example.business.domain.other.InvLocation;
+import com.example.business.domain.other.Warehouse;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
@@ -136,12 +138,10 @@ public class MaterialUtil {
         } else {
             throw new ServerException("不能识别的批次管理标志，仅识别True、False，相关erp信息：" + erp);
         }
-        if (erp.getWarehouse() == null || erp.getInvLocation() == null) {
-            throw new ServerException("仓库、仓位不能为空");
-        }
-
-        heihu.setDefaultWarehouseCode(erp.getWarehouse().getCode());
-        heihu.setDefaultLocationCode(erp.getInvLocation().getCode());
+        Warehouse warehouse = erp.getWarehouse();
+        InvLocation invLocation = erp.getInvLocation();
+        heihu.setDefaultWarehouseCode(warehouse == null ? null : warehouse.getCode());
+        heihu.setDefaultLocationCode(invLocation == null ? null : invLocation.getCode());
 
         heihu.setFifoAttr("批次号");
         heihu.setCust_field3__c(erp.getSafeQuantity());

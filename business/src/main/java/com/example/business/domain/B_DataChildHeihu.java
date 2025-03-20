@@ -31,7 +31,7 @@ public class B_DataChildHeihu {
     /**
      * 损耗率
      */
-    private Double lossRate;
+    private String lossRate;
 
     /**
      * 领料方式
