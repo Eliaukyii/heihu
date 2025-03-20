@@ -44,6 +44,10 @@ public class AppTicketImpl implements Processor {
             //token文件为空或超过24小时，重新获取erp的token
             if (StringUtils.isBlank(token) || (now.getTime() - lastModified.getTime()) > SaveToken.erpTimeSeconds) {
                 ErpAuthResponse erpToken = TokenUtil.getErpToken();
+                if (erpToken == null || erpToken.getValue() == null || erpToken.getValue().getAccessToken() == null) {
+                    log.error("token获取失败");
+                    return;
+                }
 //                SaveToken.erpAuthResponse = erpToken;
                 SaveToken.erpToken = erpToken.getValue().getAccessToken();
 
@@ -94,8 +98,8 @@ public class AppTicketImpl implements Processor {
             tokenFileDetail.setLastModified(lastModified);
 
             // 打印结果
-            log.info("获取erpToken - 文件内容：" + content);
-            log.info("获取erpToken - 最后修改时间：" + lastModified);
+//            log.info("获取erpToken - 文件内容：" + content);
+            log.info("token文件最后修改时间：" + lastModified);
         } catch (IOException e) {
             log.error("获取erpToken - 读取文件时出错: " + e.getMessage());
         }
