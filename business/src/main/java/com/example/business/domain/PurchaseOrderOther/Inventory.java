@@ -1,4 +1,4 @@
-package com.example.business.domain.SaleOrderOther;
+package com.example.business.domain.PurchaseOrderOther;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -7,6 +7,4 @@ import lombok.Data;
 public class Inventory {
     @JsonProperty("Code")
     private String Code;
-    @JsonProperty("Name")
-    private String Name;
 }

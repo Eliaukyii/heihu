@@ -24,7 +24,6 @@ public class PurchaseOrderHeihu {
     private Integer materialCarryMode;
     //交货方式 采购订单交货方式。0:按订单，1:按交货计划。默认为 按订单
     private Integer deliveryMode;
-
     //单位
     private String unitName;
     private List<itemList> itemList;

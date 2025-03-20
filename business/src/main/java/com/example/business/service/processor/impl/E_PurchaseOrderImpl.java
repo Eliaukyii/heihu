@@ -15,6 +15,7 @@ import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.request.RequestParamErpPurchase;
 import com.example.business.service.processor.Processor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -95,7 +96,7 @@ public class E_PurchaseOrderImpl implements Processor {
     private PurchaseOrderHeihu convertRequest(MsgInfoPurchaseOrderData data){
         PurchaseOrderHeihu purchaseOrderHeihu = new PurchaseOrderHeihu();
         purchaseOrderHeihu.setCode(data.getCode());
-        purchaseOrderHeihu.setSupplierCode(data.getPartner().getName());
+        purchaseOrderHeihu.setSupplierCode(data.getPartner().getCode());
         purchaseOrderHeihu.setDefaultInStorageType(2);
         purchaseOrderHeihu.setOwnerCode("admin");
         purchaseOrderHeihu.setSource(0);
@@ -107,9 +108,9 @@ public class E_PurchaseOrderImpl implements Processor {
         List<itemList> itemLists = details.stream().map(detail -> {
             itemList itemList1 = new itemList();
             itemList1.setDemandAmount(detail.getQuantity());
-            itemList1.setDemandTime(data.getAcceptDate());
-            //itemList1.setMaterialCode(detail.getPartnerInventoryCode());
-            itemList1.setMaterialCode("MA00000000");
+            itemList1.setDemandTime(detail.getAcceptDate());
+            itemList1.setMaterialCode(detail.getInventory().getCode());
+            //itemList1.setMaterialCode("MA00000000");
             itemList1.setSeqNum("10");
             return itemList1;
         }).collect(Collectors.toList());
