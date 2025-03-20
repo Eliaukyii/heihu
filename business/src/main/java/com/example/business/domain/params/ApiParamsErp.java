@@ -13,6 +13,7 @@ public class ApiParamsErp {
     public static String appSecret;
     public static String certificate;
     public static String customerUri;
+    public static String inventoryUri;
     public static String bomUri;
     public static String routingUri;
     public static String saleOrderUri;
@@ -47,6 +48,11 @@ public class ApiParamsErp {
     @Value("${paramsErp.customerUri}")
     public void setCustomerUri(String customerUri) {
         ApiParamsErp.customerUri = customerUri;
+
+    }
+    @Value("${paramsErp.inventoryUri}")
+    public void setInventoryUri(String inventoryUri) {
+        ApiParamsErp.inventoryUri = inventoryUri;
     }
 
     @Value("${paramsErp.bomUri}")
