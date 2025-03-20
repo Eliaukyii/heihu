@@ -7,4 +7,10 @@ import lombok.Data;
 public class SaleOrderDetails {
     @JsonProperty("Inventory")
     private Inventory Inventory;
+    @JsonProperty("Quantity")
+    private String Quantity;
+    @JsonProperty("Unit")
+    private Unit Unit;
+    @JsonProperty("DeliveryDate")
+    private String DeliveryDate;
 }

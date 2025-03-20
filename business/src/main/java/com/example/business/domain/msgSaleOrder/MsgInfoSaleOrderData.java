@@ -10,6 +10,8 @@ import java.util.List;
 
 @Data
 public class MsgInfoSaleOrderData {
+    @JsonProperty("Code")
+    private String Code;
     //客户
     @JsonProperty("Customer")
     private Customer Customer;
@@ -31,16 +33,8 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("DistributionMode")
     //配送方式
     private DistributionMode DistributionMode;
-    @JsonProperty("SaleOrderDetailsList")
+    @JsonProperty("SaleOrderDetails")
     //存货编码
-    private List<SaleOrderDetails> SaleOrderDetailsList;
-    @JsonProperty("Quantity")
-    //数量
-    private String  Quantity;
-    @JsonProperty("Unit")
-    //销售单位
-    private Unit Unit;
-    @JsonProperty("DeliveryDate")
-    //配送方式
-    private String  DeliveryDate;
+    private List<SaleOrderDetails> SaleOrderDetails;
+
 }

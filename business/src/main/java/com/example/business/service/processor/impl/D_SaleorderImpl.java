@@ -11,6 +11,7 @@ import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.SaleOrderOther.items;
+import com.example.business.domain.request.RequestParamErpPurchase;
 import com.example.business.service.processor.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -47,11 +48,12 @@ public class D_SaleorderImpl implements Processor {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        RequestParamErp requestParamErp = new RequestParamErp(voucherCode);
+        //RequestParamErp requestParamErp = new RequestParamErp(voucherCode);
+        RequestParamErpPurchase requestParamErpPurchase = new RequestParamErpPurchase(voucherCode);
 
         MsgInfoSaleOrder msgInfoSaleOrder1 = webClientErp.post()
                 .uri(apiParamsErp.saleOrderUri)
-                .bodyValue(requestParamErp)
+                .bodyValue(requestParamErpPurchase)
                 .retrieve()
                 .bodyToMono(MsgInfoSaleOrder.class)
                 .block();
@@ -78,20 +80,21 @@ public class D_SaleorderImpl implements Processor {
 
     private  SaleOrderHeihu covertRequest(MsgInfoSaleOrderData data){
         SaleOrderHeihu saleOrderHeihu = new SaleOrderHeihu();
+        saleOrderHeihu.setCode(data.getCode());
         saleOrderHeihu.setCustomerCode(data.getCustomer().getName());
         saleOrderHeihu.setOutboundType("直接出库");
         saleOrderHeihu.setOwnerCode(data.getAuditor());
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
         saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
-        List<SaleOrderDetails> details = data.getSaleOrderDetailsList();
+        List<SaleOrderDetails> details = data.getSaleOrderDetails();
         List<items> itemsList = details.stream().map(detail ->{
             items items1 = new items();
             items1.setLineNo(1);
             items1.setMaterialCode(detail.getInventory().getCode());
-            items1.setAmount(data.getQuantity());
-            items1.setUnit(data.getUnit().getName());
-            items1.setDeliveryDate(data.getDeliveryDate());
+            items1.setAmount(detail.getQuantity());
+            items1.setUnit(detail.getUnit().getName());
+            items1.setDeliveryDate(detail.getDeliveryDate());
             return items1;
         }).collect(Collectors.toList());
         saleOrderHeihu.setItemsList(itemsList);
