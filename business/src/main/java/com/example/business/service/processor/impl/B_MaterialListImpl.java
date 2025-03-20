@@ -90,12 +90,18 @@ public class B_MaterialListImpl implements Processor {
         B_ProcessData processData = new B_ProcessData();
         if (dataErp.getRouting() != null && dataErp.getRouting().get("Code") != null) {
 
+            WebClient webClientHeihu = WebClient.builder()
+                    .baseUrl(apiParamsHeihu.url)
+                    .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .build();
+
             String routingCode = dataErp.getRouting().get("Code").toString();
 
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("code", routingCode);
 
-            HeihuAuthResponse response = webClientErp.post()
+            HeihuAuthResponse response = webClientHeihu.post()
                     .uri(apiParamsHeihu.processUri)
                     .bodyValue(paramMap)
                     .retrieve()
