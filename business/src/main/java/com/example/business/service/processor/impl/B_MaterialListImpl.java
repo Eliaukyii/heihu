@@ -167,7 +167,7 @@ public class B_MaterialListImpl implements Processor {
         heihu.setMaterialCode(erp.getCode());
         //成品率转换
         BigDecimal bigDecimal = new BigDecimal(erp.getYieldRate());
-        BigDecimal convert = bigDecimal.multiply(new BigDecimal("100")).setScale(4, RoundingMode.HALF_UP);
+        BigDecimal convert = bigDecimal.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
         if (convert.compareTo(BigDecimal.ZERO) <= 0 || convert.compareTo(new BigDecimal("1000")) > 0) {
             throw new ServerException("成品率（%）必须大于0，且小于等于1000");
         }
@@ -209,7 +209,7 @@ public class B_MaterialListImpl implements Processor {
             heihuChild.setInputAmountDenominator(erpChild.getRequiredQuantity());
 
             BigDecimal bigDecimal2 = new BigDecimal(erpChild.getWasteRate());
-            BigDecimal convert2 = bigDecimal2.multiply(new BigDecimal("100")).setScale(4, RoundingMode.HALF_UP);
+            BigDecimal convert2 = bigDecimal2.multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
             if (convert.compareTo(BigDecimal.ZERO) < 0 || convert.compareTo(new BigDecimal("100")) >= 0) {
                 throw new ServerException("子物料损耗率（%）必须大于等于0，且小于100");
             }
