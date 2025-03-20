@@ -9,21 +9,39 @@ import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.response.HeihuAuthResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.annotation.PostConstruct;
+import java.rmi.ServerException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Component
 public class MaterialUtil {
 
-    public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
-    public static ApiParamsErp apiParamsErp = new ApiParamsErp();
+    @Autowired
+    private ObjectMapper objectMapperUpper;
+    private static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
+    private static ApiParamsErp apiParamsErp = new ApiParamsErp();
 
-    public static void MaterialHandle(MsgInfo msgInfo){
+    private static MaterialUtil materialUtil;
+
+    @PostConstruct
+    public void init() {
+        materialUtil = this;
+        materialUtil.objectMapperUpper = this.objectMapperUpper;
+    }
+
+    public static void MaterialHandle(MsgInfo msgInfo) {
 
         //获取存货code
         String code = msgInfo.getBizContent().getCode();
@@ -40,13 +58,23 @@ public class MaterialUtil {
         String SelectFields = "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity";
         RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
 
-        List<MaterialDefinitionErp> list = new ArrayList<>();
-        list = webClientErp.post()
-                .uri(apiParamsErp.customerUri)
+
+        String responseData = webClientErp.post()
+                .uri(apiParamsErp.inventoryUri)
                 .bodyValue(requestParamErp)
                 .retrieve()
-                .bodyToMono(list.getClass())
+                .bodyToMono(String.class)
                 .block();
+
+        List<MaterialDefinitionErp> list = new ArrayList<>();
+        try {
+            list = materialUtil.objectMapperUpper.readValue(responseData, new TypeReference<List<MaterialDefinitionErp>>() {
+            });
+        } catch (JsonProcessingException e) {
+            log.error("物料清单 - 数据转换失败");
+            return;
+        }
+
         if (CollectionUtils.isEmpty(list)) {
             log.error("未查询到erp中存货详情");
             return;
@@ -55,7 +83,13 @@ public class MaterialUtil {
         log.info("物料定义，存货新增/修改 - 根据code请求erp的响应数据：" + list);
 
         //组装数据
-        MaterialDefinitionHeihu data = MaterialUtil.disposeData(list);
+        MaterialDefinitionHeihu data = null;
+        try {
+            data = MaterialUtil.disposeData(list);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return;
+        }
 
         //请求黑湖
         WebClient webClient = WebClient.builder()
@@ -75,8 +109,8 @@ public class MaterialUtil {
         }
     }
 
-    public static MaterialDefinitionHeihu disposeData(List<MaterialDefinitionErp> list) {
-        MaterialDefinitionErp erp = list.get(list.size() - 1) ;
+    public static MaterialDefinitionHeihu disposeData(List<MaterialDefinitionErp> list) throws ServerException {
+        MaterialDefinitionErp erp = list.get(list.size() - 1);
         MaterialDefinitionHeihu heihu = new MaterialDefinitionHeihu();
         heihu.setMaterialCode(erp.getCode());
         heihu.setMaterialName(erp.getName());
@@ -100,7 +134,10 @@ public class MaterialUtil {
             //先进先出也不传或传否
 //            heihu.setFifoEnabled("否");
         } else {
-            log.error("不能识别的批次管理标志，仅识别True、False，相关erp信息：{}", erp);
+            throw new ServerException("不能识别的批次管理标志，仅识别True、False，相关erp信息：" + erp);
+        }
+        if (erp.getWarehouse() == null || erp.getInvLocation() == null) {
+            throw new ServerException("仓库、仓位不能为空");
         }
 
         heihu.setDefaultWarehouseCode(erp.getWarehouse().getCode());

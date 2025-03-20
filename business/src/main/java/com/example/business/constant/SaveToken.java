@@ -1,22 +1,22 @@
 package com.example.business.constant;
 
-import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponseDataBody;
 import com.example.business.util.TokenUtil;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Date;
 
 @Slf4j
+@Component
 public class SaveToken {
 
     @Autowired
-    private static ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     /**
      * 黑湖token，设置有效期为1小时
@@ -44,6 +44,14 @@ public class SaveToken {
      */
     private static Date heihuTokenTime;
 
+    private static SaveToken saveToken;
+
+    @PostConstruct
+    public void init() {
+        saveToken = this;
+        saveToken.objectMapper = this.objectMapper;
+    }
+
 
     public static String getHeihuToken(){
         Date now = new Date();
@@ -51,7 +59,7 @@ public class SaveToken {
             HeihuAuthResponse response = TokenUtil.getHeihuToken();
             HeihuAuthResponseDataBody dataBody = null;
             try {
-                dataBody = objectMapper.readValue(response.getData().toString(), HeihuAuthResponseDataBody.class);
+                dataBody = saveToken.objectMapper.convertValue(response.getData(), HeihuAuthResponseDataBody.class);
             } catch (Exception e) {
                 log.error("获取黑湖token时发生异常，异常信息：" + e.getMessage());
             }
