@@ -1,14 +1,9 @@
 package com.example.business.constant;
 
-import com.example.business.domain.response.ErpAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.domain.response.HeihuAuthResponseDataBody;
-import com.example.business.util.MaterialUtil;
 import com.example.business.util.TokenUtil;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.internal.org.objectweb.asm.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
