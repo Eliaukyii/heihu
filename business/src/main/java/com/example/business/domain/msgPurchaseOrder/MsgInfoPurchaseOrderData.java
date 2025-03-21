@@ -18,6 +18,6 @@ public class MsgInfoPurchaseOrderData {
     @JsonProperty("PurchaseOrderDetails")
     private List<PurchaseOrderDetails> PurchaseOrderDetails;
     //需求时间
-    @JsonProperty("AcceptDate")
-    private String AcceptDate;
+
+    //private String AcceptDate;
 }

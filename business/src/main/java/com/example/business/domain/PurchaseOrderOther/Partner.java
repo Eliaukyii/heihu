@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class Partner {
     //供应商名称
-    @JsonProperty("Name")
-    private String Name;
+    @JsonProperty("Code")
+    private String Code;
 }

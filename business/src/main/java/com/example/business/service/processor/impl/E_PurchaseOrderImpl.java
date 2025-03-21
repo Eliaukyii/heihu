@@ -4,6 +4,7 @@ import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.PurchaseOrderHeihu;
 import com.example.business.domain.PurchaseOrderOther.itemList;
+import com.example.business.domain.PurchaseOrderOther.upperNoteType;
 import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.msg.MsgInfoBizContent;
 import com.example.business.domain.msgPurchaseOrder.MsgInfoPurchaseOrder;
@@ -15,6 +16,7 @@ import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.request.RequestParamErpPurchase;
 import com.example.business.service.processor.Processor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -81,25 +83,24 @@ public class E_PurchaseOrderImpl implements Processor {
                 .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-
         String heihuResponse = webClient.post()
                 .uri(apiParamsHeihu.purchaseOrderUri)
                 .bodyValue(data)
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        log.info("物料定义，存货新增 - 请求黑湖响应数据：" + heihuResponse);
+        log.info("采购订单，订单新增 - 请求黑湖响应数据：" + heihuResponse);
 
     }
 
     private PurchaseOrderHeihu convertRequest(MsgInfoPurchaseOrderData data){
         PurchaseOrderHeihu purchaseOrderHeihu = new PurchaseOrderHeihu();
         purchaseOrderHeihu.setCode(data.getCode());
-        purchaseOrderHeihu.setSupplierCode(data.getPartner().getName());
+        purchaseOrderHeihu.setSupplierCode(data.getPartner().getCode());
         purchaseOrderHeihu.setDefaultInStorageType(2);
         purchaseOrderHeihu.setOwnerCode("admin");
         purchaseOrderHeihu.setSource(0);
-        purchaseOrderHeihu.getUpperNoteType().setCode("001");
+        purchaseOrderHeihu.setUpperNoteType(new upperNoteType("001"));
         purchaseOrderHeihu.setMaterialCarryMode(0);
         purchaseOrderHeihu.setDeliveryMode(0);
         List<PurchaseOrderDetails> details = data.getPurchaseOrderDetails();
@@ -107,10 +108,10 @@ public class E_PurchaseOrderImpl implements Processor {
         List<itemList> itemLists = details.stream().map(detail -> {
             itemList itemList1 = new itemList();
             itemList1.setDemandAmount(detail.getQuantity());
-            itemList1.setDemandTime(data.getAcceptDate());
-            //itemList1.setMaterialCode(detail.getPartnerInventoryCode());
-            itemList1.setMaterialCode("MA00000000");
-            itemList1.setSeqNum("10");
+            itemList1.setDemandTime(detail.getAcceptDate());
+            itemList1.setMaterialCode(detail.getInventory().getCode());
+            //itemList1.setMaterialCode("MA00000000");
+            itemList1.setLineNo("10");
             return itemList1;
         }).collect(Collectors.toList());
         purchaseOrderHeihu.setItemList(itemLists);

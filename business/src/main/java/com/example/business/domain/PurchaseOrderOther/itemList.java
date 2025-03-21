@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class itemList {
     //行号
-    private String seqNum;
+    private String lineNo;
 
     //物料编号
     private String materialCode;
