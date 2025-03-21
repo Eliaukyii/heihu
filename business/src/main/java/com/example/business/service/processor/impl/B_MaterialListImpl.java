@@ -1,5 +1,7 @@
 package com.example.business.service.processor.impl;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
@@ -135,6 +137,9 @@ public class B_MaterialListImpl implements Processor {
             return;
         }
 
+        JSON parse = JSONUtil.parse(data);
+        System.out.println("parse = " + parse);
+
         //请求黑湖
         WebClient webClient = WebClient.builder()
                 .baseUrl(apiParamsHeihu.url)
@@ -150,7 +155,7 @@ public class B_MaterialListImpl implements Processor {
                 .block();
 
         if (!heihuResponse.getCode().equals("200")) {
-            log.error("新增物料清单失败，失败信息：" + heihuResponse.getMessage());
+            log.error("新增物料清单失败，失败信息：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
         }
 
     }

@@ -107,7 +107,7 @@ public class MaterialUtil {
                 .bodyToMono(HeihuAuthResponse.class)
                 .block();
         if (!heihuResponse.getCode().equals("200")) {
-            log.error("物料定义，存货新增/修改失败，失败信息：" + heihuResponse.getMessage());
+            log.error("物料定义，存货新增/修改失败，失败信息：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
         }
     }
 

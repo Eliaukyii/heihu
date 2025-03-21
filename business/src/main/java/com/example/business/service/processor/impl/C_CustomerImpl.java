@@ -8,6 +8,7 @@ import com.example.business.domain.msg.MsgInfoBizContentPartnerType;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
+import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.service.processor.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -45,25 +46,25 @@ public class C_CustomerImpl implements Processor {
         MsgInfoBizContentPartnerType partnerType = bizContent.getPartnerType();
         String partnerTypeCode = partnerType.getCode();
         //请求erp获取详细信息
-        WebClient webClientErp = WebClient.builder()
-                .baseUrl(apiParamsErp.url)
-                .defaultHeader("openToken", SaveToken.erpToken)
-                .defaultHeader("appKey", apiParamsErp.appKey)
-                .defaultHeader("appSecret", apiParamsErp.appSecret)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
+//        WebClient webClientErp = WebClient.builder()
+//                .baseUrl(apiParamsErp.url)
+//                .defaultHeader("openToken", SaveToken.erpToken)
+//                .defaultHeader("appKey", apiParamsErp.appKey)
+//                .defaultHeader("appSecret", apiParamsErp.appSecret)
+//                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+//                .build();
 
-        String SelectFields = "id,code,name,PartnerClass.Code,PartnerType.Code";
-        RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
+//        String SelectFields = "id,code,name,PartnerClass.Code,PartnerType.Code";
+//        RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
 
-        ArrayList<Object> list = new ArrayList<>();
-        List<Object> ErpResponseData = webClientErp.post()
-                .uri(apiParamsErp.customerUri)
-                .bodyValue(requestParamErp)
-                .retrieve()
-                .bodyToMono(list.getClass())
-                .block();
-        log.info("供应商 - 根据code请求erp的响应数据：" + ErpResponseData);
+//        ArrayList<Object> list = new ArrayList<>();
+//        List<Object> ErpResponseData = webClientErp.post()
+//                .uri(apiParamsErp.customerUri)
+//                .bodyValue(requestParamErp)
+//                .retrieve()
+//                .bodyToMono(list.getClass())
+//                .block();
+//        log.info("供应商 - 根据code请求erp的响应数据：" + ErpResponseData);
 
         //请求黑湖
         WebClient webClient = WebClient.builder()
@@ -75,25 +76,29 @@ public class C_CustomerImpl implements Processor {
         //00供应商，01客户，02客户/供应商
         if ("00".equals(partnerTypeCode)) {
 
-            String heihuResponse = webClient.post()
+            HeihuAuthResponse heihuResponse = webClient.post()
                     .uri(apiParamsHeihu.supplierUri)
                     .bodyValue(map)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(HeihuAuthResponse.class)
                     .block();
-            log.info("供应商 - 请求黑湖响应数据：" + heihuResponse);
+            if (!heihuResponse.getCode().equals("200")) {
+                log.error("供应商新增失败，失败信息：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
+            }
 
         } else if ("01".equals(partnerTypeCode)){
 
             map.put("ownerCode", "admin");
 
-            String heihuResponse = webClient.post()
+            HeihuAuthResponse heihuResponse = webClient.post()
                     .uri(apiParamsHeihu.customerUri)
                     .bodyValue(map)
                     .retrieve()
-                    .bodyToMono(String.class)
+                    .bodyToMono(HeihuAuthResponse.class)
                     .block();
-            log.info("客户 - 请求黑湖响应数据：" + heihuResponse);
+            if (!heihuResponse.getCode().equals("200")) {
+                log.error("客户新增失败，失败信息：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
+            }
 
         } else if ("02".equals(partnerTypeCode)) {
             //暂无
