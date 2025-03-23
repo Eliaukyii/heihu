@@ -1,5 +1,6 @@
 package com.example.business.domain;
 import com.example.business.domain.SaleOrderOther.items;
+import com.example.business.domain.SaleOrderOther.CustomField;
 import lombok.Data;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class SaleOrderHeihu {
     //手机号码
     private String phoneNumber;
 
-    private List<items> itemsList;
+    private List<items> items;
 
+    private List<CustomField> customFields;
 }

@@ -1,8 +1,12 @@
 package com.example.business.service.processor.impl;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.SaleOrderHeihu;
+import com.example.business.domain.SaleOrderOther.CustomField;
 import com.example.business.domain.SaleOrderOther.SaleOrderDetails;
 import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.msgSaleOrder.MsgInfoSaleOrder;
@@ -32,6 +36,7 @@ public class D_SaleorderImpl implements Processor {
 
     public static ApiParamsHeihu apiParamsHeihu = new ApiParamsHeihu();
     public static ApiParamsErp apiParamsErp = new ApiParamsErp();
+
     @Override
     public void handle(MsgInfo msgInfo) {
         //代码实现逻辑
@@ -43,7 +48,7 @@ public class D_SaleorderImpl implements Processor {
         WebClient webClientErp = WebClient.builder()
                 .baseUrl(apiParamsErp.url)
                 .defaultHeader("openToken", SaveToken.erpToken)
-                .defaultHeader("appKey",apiParamsErp.appKey)
+                .defaultHeader("appKey", apiParamsErp.appKey)
                 .defaultHeader("appSecret", apiParamsErp.appSecret)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
@@ -63,6 +68,8 @@ public class D_SaleorderImpl implements Processor {
         MsgInfoSaleOrderData data1 = msgInfoSaleOrder1.getData();
         SaleOrderHeihu data = covertRequest(data1);
 
+        JSON parse = JSONUtil.parse(data);
+        log.info("parse数据：" + parse);
         //请求黑湖
         WebClient webClient = WebClient.builder()
                 .baseUrl(apiParamsHeihu.url)
@@ -78,17 +85,17 @@ public class D_SaleorderImpl implements Processor {
         log.info("销售订单,销售订单新增 - 请求黑湖响应数据: " + heiHuResponse);
     }
 
-    private  SaleOrderHeihu covertRequest(MsgInfoSaleOrderData data){
+    private SaleOrderHeihu covertRequest(MsgInfoSaleOrderData data) {
         SaleOrderHeihu saleOrderHeihu = new SaleOrderHeihu();
         saleOrderHeihu.setCode(data.getCode());
-        saleOrderHeihu.setCustomerCode(data.getCustomer().getName());
+        saleOrderHeihu.setCustomerCode(data.getCustomer().getCode());
         saleOrderHeihu.setOutboundType("直接出库");
         saleOrderHeihu.setOwnerCode(data.getAuditor());
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
         saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
         List<SaleOrderDetails> details = data.getSaleOrderDetails();
-        List<items> itemsList = details.stream().map(detail ->{
+        List<items> itemsList = details.stream().map(detail -> {
             items items1 = new items();
             items1.setLineNo(1);
             items1.setMaterialCode(detail.getInventory().getCode());
@@ -97,12 +104,33 @@ public class D_SaleorderImpl implements Processor {
             items1.setDeliveryDate(detail.getDeliveryDate());
             return items1;
         }).collect(Collectors.toList());
-        saleOrderHeihu.setItemsList(itemsList);
+        saleOrderHeihu.setItems(itemsList);
+
+
+        List<String> dynamicPropertyKeys = data.getDynamicPropertyKeys();
+        //包装要求
+        int pubuserdefnvc1Index = dynamicPropertyKeys.indexOf("pubuserdefnvc1");
+        String pubuserdefnvc1 = data.getDynamicPropertyValues().get(pubuserdefnvc1Index);
+
+        int pubuserdefnvc2Index = dynamicPropertyKeys.indexOf("pubuserdefnvc2");
+        String pubuserdefnvc2 = data.getDynamicPropertyValues().get(pubuserdefnvc2Index);
+
+        int pubuserdefnvc3Index = dynamicPropertyKeys.indexOf("pubuserdefnvc3");
+        String pubuserdefnvc3 = data.getDynamicPropertyValues().get(pubuserdefnvc3Index);
+        int pubuserdefnvc6Index = dynamicPropertyKeys.indexOf("pubuserdefnvc6");
+        String pubuserdefnvc6 = data.getDynamicPropertyValues().get(pubuserdefnvc6Index);
+
+        List<CustomField> customFields = new ArrayList<>();
+        customFields.add(new CustomField("cust_field2__c", data.getDeliveryMode() == null ? null : data.getDeliveryMode().getCode()));
+        customFields.add(new CustomField("cust_field3__c", data.getDistributionMode().getCode()));
+        customFields.add(new CustomField("cust_field4__c", pubuserdefnvc1));
+        customFields.add(new CustomField("cust_field5__c", pubuserdefnvc2));
+        customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));
+        customFields.add(new CustomField("cust_field7__c", pubuserdefnvc6));
+        saleOrderHeihu.setCustomFields(customFields);
+
         return saleOrderHeihu;
     }
-
-
-
 
 
     @Override

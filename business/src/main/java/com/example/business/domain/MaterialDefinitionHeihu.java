@@ -70,9 +70,10 @@ public class MaterialDefinitionHeihu {
      */
     private String cust_field3__c;
 
-
-
-
+    /**
+     * 状态
+     */
+    private String enableFlag;
 
 
 

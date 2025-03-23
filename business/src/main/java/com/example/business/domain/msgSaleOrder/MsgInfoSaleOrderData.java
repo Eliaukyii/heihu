@@ -3,6 +3,7 @@ import com.example.business.domain.SaleOrderOther.Customer;
 import com.example.business.domain.SaleOrderOther.DistributionMode;
 import com.example.business.domain.SaleOrderOther.SaleOrderDetails;
 import com.example.business.domain.SaleOrderOther.Unit;
+import com.example.business.domain.SaleOrderOther.DeliveryMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -29,12 +30,20 @@ public class MsgInfoSaleOrderData {
     private String  CustomerPhone;
     @JsonProperty("DeliveryMode")
     //运输方式
-    private String  DeliveryMode;
+    private DeliveryMode  DeliveryMode;
     @JsonProperty("DistributionMode")
     //配送方式
     private DistributionMode DistributionMode;
     @JsonProperty("SaleOrderDetails")
     //存货编码
     private List<SaleOrderDetails> SaleOrderDetails;
+    //包装要求
+    //标签要求
+    //报告要求
+    //技术规格要求
+    @JsonProperty("DynamicPropertyKeys")
+    private List<String> DynamicPropertyKeys;
+    @JsonProperty("DynamicPropertyValues")
+    private List<String> DynamicPropertyValues;
 
 }
