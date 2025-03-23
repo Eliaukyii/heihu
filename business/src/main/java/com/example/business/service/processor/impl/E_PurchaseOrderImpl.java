@@ -14,6 +14,7 @@ import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.request.RequestParamErpPurchase;
+import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.service.processor.Processor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.org.apache.bcel.internal.classfile.Code;
@@ -83,13 +84,34 @@ public class E_PurchaseOrderImpl implements Processor {
                 .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-        String heihuResponse = webClient.post()
+        HeihuAuthResponse heihuResponse = webClient.post()
                 .uri(apiParamsHeihu.purchaseOrderUri)
                 .bodyValue(data)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(HeihuAuthResponse.class)
                 .block();
-        log.info("采购订单，订单新增 - 请求黑湖响应数据：" + heihuResponse);
+        if (!heihuResponse.getCode().equals("200")) {
+            log.error("采购订单，订单新增 - 请求黑湖响应数据：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
+        } else {
+            HashMap<String, String[]> map = new HashMap<>();
+            map.put("codes", new String[]{data.getCode()});
+            //请求黑湖
+            WebClient webClient2 = WebClient.builder()
+                    .baseUrl(apiParamsHeihu.url)
+                    .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .build();
+            HeihuAuthResponse heiHuResponse2 = webClient2.post()
+                    .uri(apiParamsHeihu.saleOrderUri)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(HeihuAuthResponse.class)
+                    .block();
+            if (!heiHuResponse2.getCode().equals("200")) {
+                log.error("采购订单下发失败：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
+            }
+
+        }
 
     }
 

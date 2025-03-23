@@ -16,6 +16,7 @@ import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
 import com.example.business.domain.SaleOrderOther.items;
 import com.example.business.domain.request.RequestParamErpPurchase;
+import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.service.processor.Processor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +25,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,13 +79,34 @@ public class D_SaleorderImpl implements Processor {
                 .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
-        String heiHuResponse = webClient.post()
+        HeihuAuthResponse heiHuResponse = webClient.post()
                 .uri(apiParamsHeihu.saleOrderUri)
                 .bodyValue(data)
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(HeihuAuthResponse.class)
                 .block();
-        log.info("销售订单,销售订单新增 - 请求黑湖响应数据: " + heiHuResponse);
+        if (!heiHuResponse.getCode().equals("200")) {
+            log.error("销售订单,销售订单新增 - 请求黑湖响应数据：" + heiHuResponse.getData() +"；" + heiHuResponse.getMessage());
+        } else {
+            HashMap<String, String[]> map = new HashMap<>();
+            map.put("codes", new String[]{data.getCode()});
+            //请求黑湖
+            WebClient webClient2 = WebClient.builder()
+                    .baseUrl(apiParamsHeihu.url)
+                    .defaultHeader("X-AUTH", SaveToken.getHeihuToken())
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .build();
+            HeihuAuthResponse heiHuResponse2 = webClient2.post()
+                    .uri(apiParamsHeihu.saleOrderIssueUri)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(HeihuAuthResponse.class)
+                    .block();
+            if (!heiHuResponse2.getCode().equals("200")) {
+                log.error("销售订单下发失败：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
+            }
+
+        }
     }
 
     private SaleOrderHeihu covertRequest(MsgInfoSaleOrderData data) {
@@ -90,7 +114,8 @@ public class D_SaleorderImpl implements Processor {
         saleOrderHeihu.setCode(data.getCode());
         saleOrderHeihu.setCustomerCode(data.getCustomer().getCode());
         saleOrderHeihu.setOutboundType("直接出库");
-        saleOrderHeihu.setOwnerCode(data.getAuditor());
+//        saleOrderHeihu.setOwnerCode(data.getAuditor());
+        saleOrderHeihu.setOwnerCode("admin");
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
         saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
@@ -121,8 +146,8 @@ public class D_SaleorderImpl implements Processor {
         String pubuserdefnvc6 = data.getDynamicPropertyValues().get(pubuserdefnvc6Index);
 
         List<CustomField> customFields = new ArrayList<>();
-        customFields.add(new CustomField("cust_field2__c", data.getDeliveryMode() == null ? null : data.getDeliveryMode().getCode()));
-        customFields.add(new CustomField("cust_field3__c", data.getDistributionMode().getCode()));
+        customFields.add(new CustomField("cust_field2__c", data.getDeliveryMode() == null ? null : data.getDeliveryMode().getName()));
+        customFields.add(new CustomField("cust_field3__c", data.getDistributionMode().getName()));
         customFields.add(new CustomField("cust_field4__c", pubuserdefnvc1));
         customFields.add(new CustomField("cust_field5__c", pubuserdefnvc2));
         customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));

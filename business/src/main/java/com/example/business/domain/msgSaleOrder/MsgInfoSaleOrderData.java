@@ -22,7 +22,7 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("Address")
     //送货地址
     private String  Address;
-    @JsonProperty("linkMan")
+    @JsonProperty("LinkMan")
     //客户联系人
     private String  linkMan;
     @JsonProperty("CustomerPhone")

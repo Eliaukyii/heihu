@@ -17,6 +17,9 @@ paramsHeihu:
   supplierUri: /order/open/v1/supplier/_doimport               #供应商请求地址
   saleOrderUri: /order/open/v1/sales_order/_doimport           #销售订单请求地址
   purchaseOrderUri: /order/open/v2/purchase_order/_doimport    #销售订单请求地址
+  saleOrderIssueUri: /order/open/v2/sales_order/_dispatch      #销售订单下发
+  purchaseOrderIssueUri: /order/open/v1/purchase_order/_batch_distribute  #采购订单下发
+
   appKey: cli_1735194793846496
   appSecret: b4c45fa0f60e41de9769ba3055ce6ed4
   factoryNumber: 60894247

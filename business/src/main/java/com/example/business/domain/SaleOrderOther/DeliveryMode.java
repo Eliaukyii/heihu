@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class DeliveryMode {
-    @JsonProperty("Code")
-    private String Code;
+    @JsonProperty("Name")
+    private String Name;
 }

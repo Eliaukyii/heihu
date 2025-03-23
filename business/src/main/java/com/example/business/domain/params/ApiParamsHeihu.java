@@ -15,6 +15,10 @@ public class ApiParamsHeihu {
     public static String supplierUri;
     public static String saleOrderUri;
     public static String purchaseOrderUri;
+
+    public static String saleOrderIssueUri;
+    public static String purchaseOrderIssueUri;
+
     public static String appKey;
     public static String appSecret;
     public static String factoryNumber;
@@ -81,6 +85,17 @@ public class ApiParamsHeihu {
     @Value("${paramsHeihu.processUri}")
     public void setProcessUri(String processUri) {
         ApiParamsHeihu.processUri = processUri;
+    }
+
+
+    @Value("${paramsHeihu.saleOrderIssueUri}")
+    public void setSaleOrderIssueUri(String saleOrderIssueUri) {
+        ApiParamsHeihu.saleOrderIssueUri = saleOrderIssueUri;
+    }
+
+    @Value("${paramsHeihu.purchaseOrderIssueUri}")
+    public void setPurchaseOrderIssueUri(String purchaseOrderIssueUri) {
+        ApiParamsHeihu.purchaseOrderIssueUri = purchaseOrderIssueUri;
     }
 
 
