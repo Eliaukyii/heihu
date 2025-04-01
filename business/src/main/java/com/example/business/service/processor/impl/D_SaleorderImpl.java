@@ -102,6 +102,7 @@ public class D_SaleorderImpl implements Processor {
                     .retrieve()
                     .bodyToMono(HeihuAuthResponse.class)
                     .block();
+            log.error("销售订单下发成功：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
             if (!heiHuResponse2.getCode().equals("200")) {
                 log.error("销售订单下发失败：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
             }
@@ -115,10 +116,13 @@ public class D_SaleorderImpl implements Processor {
         saleOrderHeihu.setCustomerCode(data.getCustomer().getCode());
         saleOrderHeihu.setOutboundType("直接出库");
 //        saleOrderHeihu.setOwnerCode(data.getAuditor());
-        saleOrderHeihu.setOwnerCode("admin");
+        saleOrderHeihu.setOwnerCode(data.getMakerId());
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
-        saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
+        String phoneNumber = data.getCustomerPhone();
+        phoneNumber = phoneNumber.replaceAll("[\\s-]+", "");
+        saleOrderHeihu.setPhoneNumber(phoneNumber);
+        //saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
         List<SaleOrderDetails> details = data.getSaleOrderDetails();
         List<items> itemsList = details.stream().map(detail -> {
             items items1 = new items();
@@ -152,6 +156,7 @@ public class D_SaleorderImpl implements Processor {
         customFields.add(new CustomField("cust_field5__c", pubuserdefnvc2));
         customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));
         customFields.add(new CustomField("cust_field7__c", pubuserdefnvc6));
+        customFields.add(new CustomField("cust_field2__c",data.getID()));
         saleOrderHeihu.setCustomFields(customFields);
 
         return saleOrderHeihu;

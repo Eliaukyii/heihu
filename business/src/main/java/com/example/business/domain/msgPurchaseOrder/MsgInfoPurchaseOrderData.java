@@ -17,7 +17,8 @@ public class MsgInfoPurchaseOrderData {
     //采购订单
     @JsonProperty("PurchaseOrderDetails")
     private List<PurchaseOrderDetails> PurchaseOrderDetails;
-    //需求时间
 
-    //private String AcceptDate;
+    @JsonProperty("ID")
+    private Integer ID;
+
 }

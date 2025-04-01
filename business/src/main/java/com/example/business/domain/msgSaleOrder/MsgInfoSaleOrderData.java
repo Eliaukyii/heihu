@@ -17,8 +17,8 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("Customer")
     private Customer Customer;
     //审核人
-    @JsonProperty("Auditor")
-    private String  Auditor;
+    @JsonProperty("MakerId")
+    private String  MakerId;
     @JsonProperty("Address")
     //送货地址
     private String  Address;
@@ -45,5 +45,8 @@ public class MsgInfoSaleOrderData {
     private List<String> DynamicPropertyKeys;
     @JsonProperty("DynamicPropertyValues")
     private List<String> DynamicPropertyValues;
+
+    @JsonProperty("ID")
+    private Integer ID;
 
 }

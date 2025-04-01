@@ -2,6 +2,7 @@ package com.example.business.domain;
 
 import com.example.business.domain.PurchaseOrderOther.itemList;
 import com.example.business.domain.PurchaseOrderOther.upperNoteType;
+import com.example.business.domain.PurchaseOrderOther.CustomField;
 import lombok.Data;
 
 import java.util.List;
@@ -27,4 +28,5 @@ public class PurchaseOrderHeihu {
     //单位
     private String unitName;
     private List<itemList> itemList;
+    private List<CustomField> customFields;
 }

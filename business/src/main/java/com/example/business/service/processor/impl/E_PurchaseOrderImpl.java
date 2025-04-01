@@ -3,6 +3,7 @@ package com.example.business.service.processor.impl;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.PurchaseOrderHeihu;
+import com.example.business.domain.PurchaseOrderOther.CustomField;
 import com.example.business.domain.PurchaseOrderOther.itemList;
 import com.example.business.domain.PurchaseOrderOther.upperNoteType;
 import com.example.business.domain.msg.MsgInfo;
@@ -102,11 +103,12 @@ public class E_PurchaseOrderImpl implements Processor {
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .build();
             HeihuAuthResponse heiHuResponse2 = webClient2.post()
-                    .uri(apiParamsHeihu.saleOrderUri)
+                    .uri(apiParamsHeihu.purchaseOrderIssueUri)
                     .bodyValue(map)
                     .retrieve()
                     .bodyToMono(HeihuAuthResponse.class)
                     .block();
+            log.error("采购订单下发成功：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
             if (!heiHuResponse2.getCode().equals("200")) {
                 log.error("采购订单下发失败：" + heiHuResponse2.getData() +"；" + heiHuResponse2.getMessage());
             }
@@ -122,6 +124,11 @@ public class E_PurchaseOrderImpl implements Processor {
         purchaseOrderHeihu.setDefaultInStorageType(2);
         purchaseOrderHeihu.setOwnerCode("admin");
         purchaseOrderHeihu.setSource(0);
+
+        List<CustomField> customFields = new ArrayList<>();
+        customFields.add(new CustomField("cust_field2__c",data.getID()));
+        purchaseOrderHeihu.setCustomFields(customFields);
+
         purchaseOrderHeihu.setUpperNoteType(new upperNoteType("001"));
         purchaseOrderHeihu.setMaterialCarryMode(0);
         purchaseOrderHeihu.setDeliveryMode(0);
