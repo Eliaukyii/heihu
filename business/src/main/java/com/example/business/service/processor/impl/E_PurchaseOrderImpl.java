@@ -3,9 +3,7 @@ package com.example.business.service.processor.impl;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.PurchaseOrderHeihu;
-import com.example.business.domain.PurchaseOrderOther.CustomField;
-import com.example.business.domain.PurchaseOrderOther.itemList;
-import com.example.business.domain.PurchaseOrderOther.upperNoteType;
+import com.example.business.domain.PurchaseOrderOther.*;
 import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.msg.MsgInfoBizContent;
 import com.example.business.domain.msgPurchaseOrder.MsgInfoPurchaseOrder;
@@ -132,8 +130,10 @@ public class E_PurchaseOrderImpl implements Processor {
         purchaseOrderHeihu.setUpperNoteType(new upperNoteType("001"));
         purchaseOrderHeihu.setMaterialCarryMode(0);
         purchaseOrderHeihu.setDeliveryMode(0);
+
         List<PurchaseOrderDetails> details = data.getPurchaseOrderDetails();
         purchaseOrderHeihu.setUnitName(details.get(0).getUnit().getName());
+
         List<itemList> itemLists = details.stream().map(detail -> {
             itemList itemList1 = new itemList();
             itemList1.setDemandAmount(detail.getQuantity());
@@ -141,6 +141,14 @@ public class E_PurchaseOrderImpl implements Processor {
             itemList1.setMaterialCode(detail.getInventory().getCode());
             //itemList1.setMaterialCode("MA00000000");
             itemList1.setLineNo("10");
+            List<CustomFields2> customFields2 =itemList1.getCustomFields();
+            for (CustomFields2 cf : customFields2){
+                FieldValue2 fieldValue2 = cf.getFieldValue();
+                cf.setFieldValue(fieldValue2);
+                fieldValue2.setCustField2c(data.getID().toString());
+                break;
+            }
+
             return itemList1;
         }).collect(Collectors.toList());
         purchaseOrderHeihu.setItemList(itemLists);

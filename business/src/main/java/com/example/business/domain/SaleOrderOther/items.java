@@ -3,6 +3,8 @@ package com.example.business.domain.SaleOrderOther;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class items {
     //行号
@@ -16,5 +18,6 @@ public class items {
     //交货日期
     private String deliveryDate;
 
+    private List<CustomFields> customFields;
 
 }

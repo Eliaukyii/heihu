@@ -6,15 +6,13 @@ import cn.hutool.json.JSONUtil;
 import com.example.business.constant.MsgType;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.SaleOrderHeihu;
-import com.example.business.domain.SaleOrderOther.CustomField;
-import com.example.business.domain.SaleOrderOther.SaleOrderDetails;
+import com.example.business.domain.SaleOrderOther.*;
 import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.msgSaleOrder.MsgInfoSaleOrder;
 import com.example.business.domain.msgSaleOrder.MsgInfoSaleOrderData;
 import com.example.business.domain.params.ApiParamsErp;
 import com.example.business.domain.params.ApiParamsHeihu;
 import com.example.business.domain.request.RequestParamErp;
-import com.example.business.domain.SaleOrderOther.items;
 import com.example.business.domain.request.RequestParamErpPurchase;
 import com.example.business.domain.response.HeihuAuthResponse;
 import com.example.business.service.processor.Processor;
@@ -131,6 +129,14 @@ public class D_SaleorderImpl implements Processor {
             items1.setAmount(detail.getQuantity());
             items1.setUnit(detail.getUnit().getName());
             items1.setDeliveryDate(detail.getDeliveryDate());
+            List<CustomFields> customFields2 = items1.getCustomFields();
+            for (CustomFields cf : customFields2){
+                FieldValue fieldValue = cf.getFieldValue();
+                cf.setFieldValue(fieldValue);
+                fieldValue.setCustField2C(data.getID().toString());
+                break;
+            }
+
             return items1;
         }).collect(Collectors.toList());
         saleOrderHeihu.setItems(itemsList);
@@ -156,7 +162,6 @@ public class D_SaleorderImpl implements Processor {
         customFields.add(new CustomField("cust_field5__c", pubuserdefnvc2));
         customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));
         customFields.add(new CustomField("cust_field7__c", pubuserdefnvc6));
-        customFields.add(new CustomField("cust_field2__c",data.getID()));
         saleOrderHeihu.setCustomFields(customFields);
 
         return saleOrderHeihu;
