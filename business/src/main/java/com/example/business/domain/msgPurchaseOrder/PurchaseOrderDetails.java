@@ -19,4 +19,8 @@ public class PurchaseOrderDetails {
     @JsonProperty("AcceptDate")
     private String AcceptDate;
 
+    @JsonProperty("ID")
+    private Integer ID;
+
+
 }

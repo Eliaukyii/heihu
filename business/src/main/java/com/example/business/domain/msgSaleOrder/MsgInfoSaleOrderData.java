@@ -17,8 +17,8 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("Customer")
     private Customer Customer;
     //审核人
-    @JsonProperty("MakerId")
-    private String  MakerId;
+    @JsonProperty("Maker")
+    private String Maker;
     @JsonProperty("Address")
     //送货地址
     private String  Address;

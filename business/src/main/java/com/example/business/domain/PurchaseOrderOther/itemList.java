@@ -2,6 +2,7 @@ package com.example.business.domain.PurchaseOrderOther;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,6 +18,6 @@ public class itemList {
     //需求时间
     private String demandTime;
 
-    private List<CustomFields2> customFields;
+    private List<CustomFields2> customFields = new ArrayList<>();
 
 }

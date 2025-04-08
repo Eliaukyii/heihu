@@ -6,5 +6,5 @@ import lombok.Data;
 public class CustomFields {
     private String fieldCode;
     private Integer fieldId;
-    private FieldValue fieldValue;
+    private String fieldValue;
 }

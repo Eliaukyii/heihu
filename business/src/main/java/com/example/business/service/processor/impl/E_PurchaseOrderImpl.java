@@ -123,9 +123,9 @@ public class E_PurchaseOrderImpl implements Processor {
         purchaseOrderHeihu.setOwnerCode("admin");
         purchaseOrderHeihu.setSource(0);
 
-        List<CustomField> customFields = new ArrayList<>();
+/*        List<CustomField> customFields = new ArrayList<>();
         customFields.add(new CustomField("cust_field2__c",data.getID()));
-        purchaseOrderHeihu.setCustomFields(customFields);
+        purchaseOrderHeihu.setCustomFields(customFields);*/
 
         purchaseOrderHeihu.setUpperNoteType(new upperNoteType("001"));
         purchaseOrderHeihu.setMaterialCarryMode(0);
@@ -141,13 +141,33 @@ public class E_PurchaseOrderImpl implements Processor {
             itemList1.setMaterialCode(detail.getInventory().getCode());
             //itemList1.setMaterialCode("MA00000000");
             itemList1.setLineNo("10");
-            List<CustomFields2> customFields2 =itemList1.getCustomFields();
-            for (CustomFields2 cf : customFields2){
-                FieldValue2 fieldValue2 = cf.getFieldValue();
-                cf.setFieldValue(fieldValue2);
-                fieldValue2.setCustField2c(data.getID().toString());
-                break;
+
+/*            FieldValue2 fieldValue2 = new FieldValue2();
+            fieldValue2.setCustField2c(data.getID().toString());*/
+
+            CustomFields2 customFields2 = new CustomFields2();
+            customFields2.setFieldCode("cust_field2__c");
+            customFields2.setFieldValue(detail.getID().toString());
+
+            if (itemList1.getCustomFields() == null){
+                itemList1.setCustomFields(new ArrayList<>());
             }
+            itemList1.getCustomFields().add(customFields2);
+
+/*            CustomFields2 customFields2 = new CustomFields2();
+            customFields2.setFieldCode("1");
+            customFields2.setFieldId(0);
+            FieldValue2 fieldValue2 = new FieldValue2();
+            fieldValue2.setCustField2c(data.getID().toString());*/
+
+/*            List<CustomFields2> customFields2 =itemList1.getCustomFields();
+                for (CustomFields2 cf : customFields2) {
+                    FieldValue2 fieldValue2 = cf.getFieldValue();
+                    cf.setFieldValue(fieldValue2);
+                    fieldValue2.setCustField2c(data.getID().toString());
+
+                }*/
+
 
             return itemList1;
         }).collect(Collectors.toList());

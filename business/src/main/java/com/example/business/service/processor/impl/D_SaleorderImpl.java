@@ -114,7 +114,7 @@ public class D_SaleorderImpl implements Processor {
         saleOrderHeihu.setCustomerCode(data.getCustomer().getCode());
         saleOrderHeihu.setOutboundType("直接出库");
 //        saleOrderHeihu.setOwnerCode(data.getAuditor());
-        saleOrderHeihu.setOwnerCode(data.getMakerId());
+        saleOrderHeihu.setOwnerCode("admin");
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
         String phoneNumber = data.getCustomerPhone();
@@ -129,13 +129,25 @@ public class D_SaleorderImpl implements Processor {
             items1.setAmount(detail.getQuantity());
             items1.setUnit(detail.getUnit().getName());
             items1.setDeliveryDate(detail.getDeliveryDate());
-            List<CustomFields> customFields2 = items1.getCustomFields();
+
+/*            FieldValue fieldValue = new FieldValue();
+            fieldValue.setCustField2C(data.getID().toString());*/
+
+            CustomFields customFields = new CustomFields();
+            customFields.setFieldCode("cust_field2__c");
+            customFields.setFieldValue(detail.getID().toString());
+
+            if (items1.getCustomFields() == null){
+                items1.setCustomFields(new ArrayList<>());
+            }
+            items1.getCustomFields().add(customFields);
+/*            List<CustomFields> customFields2 = items1.getCustomFields();
             for (CustomFields cf : customFields2){
                 FieldValue fieldValue = cf.getFieldValue();
                 cf.setFieldValue(fieldValue);
                 fieldValue.setCustField2C(data.getID().toString());
                 break;
-            }
+            }*/
 
             return items1;
         }).collect(Collectors.toList());
@@ -162,6 +174,7 @@ public class D_SaleorderImpl implements Processor {
         customFields.add(new CustomField("cust_field5__c", pubuserdefnvc2));
         customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));
         customFields.add(new CustomField("cust_field7__c", pubuserdefnvc6));
+        customFields.add(new CustomField("cust_field10__c",data.getMaker()));
         saleOrderHeihu.setCustomFields(customFields);
 
         return saleOrderHeihu;

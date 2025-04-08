@@ -13,4 +13,7 @@ public class SaleOrderDetails {
     private Unit Unit;
     @JsonProperty("DeliveryDate")
     private String DeliveryDate;
+
+    @JsonProperty("ID")
+    private Integer ID;
 }
