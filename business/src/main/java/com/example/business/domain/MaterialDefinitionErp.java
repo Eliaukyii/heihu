@@ -78,5 +78,10 @@ public class MaterialDefinitionErp {
      */
     private String SafeQuantity;
 
+    /**
+     * 平均成本
+     */
+    private String AvagCost;
+
 
 }

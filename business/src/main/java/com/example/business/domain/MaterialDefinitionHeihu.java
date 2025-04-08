@@ -2,6 +2,9 @@ package com.example.business.domain;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 public class MaterialDefinitionHeihu {
 
@@ -66,9 +69,9 @@ public class MaterialDefinitionHeihu {
     private String fifoAttr;
 
     /**
-     * 安全库存
+     * 安全库存、平均成本
      */
-    private String cust_field3__c;
+    private List<Map<String, Object>> customFields;
 
     /**
      * 状态

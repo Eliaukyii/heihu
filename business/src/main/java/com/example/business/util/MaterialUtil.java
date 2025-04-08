@@ -24,7 +24,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import javax.annotation.PostConstruct;
 import java.rmi.ServerException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -151,8 +153,17 @@ public class MaterialUtil {
         heihu.setDefaultWarehouseCode(warehouse == null ? null : warehouse.getCode());
         heihu.setDefaultLocationCode(invLocation == null ? null : invLocation.getCode());
 
+        List<Map<String, Object>> customFields = new ArrayList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("fieldCode", "cust_field3__c");
+        map1.put("fieldValue", erp.getSafeQuantity());
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("fieldCode", "cust_field6__c");
+        map2.put("fieldValue", erp.getAvagCost());
+        customFields.add(map1);
+        customFields.add(map2);
 
-        heihu.setCust_field3__c(erp.getSafeQuantity());
+        heihu.setCustomFields(customFields);
         heihu.setEnableFlag("启用");
 
         return heihu;
