@@ -76,12 +76,12 @@ public class MaterialDefinitionErp {
     /**
      * 安全库存
      */
-    private String SafeQuantity;
+    private Integer SafeQuantity;
 
     /**
      * 平均成本
      */
-    private String AvagCost;
+    private Integer AvagCost;
 
 
 }

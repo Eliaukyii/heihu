@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.example.business.constant.SaveToken;
 import com.example.business.domain.MaterialDefinitionErp;
 import com.example.business.domain.MaterialDefinitionHeihu;
+import com.example.business.domain.MaterialDefinitionHeihuFileds;
 import com.example.business.domain.msg.MsgInfo;
 import com.example.business.domain.other.InvLocation;
 import com.example.business.domain.other.Warehouse;
@@ -153,15 +154,9 @@ public class MaterialUtil {
         heihu.setDefaultWarehouseCode(warehouse == null ? null : warehouse.getCode());
         heihu.setDefaultLocationCode(invLocation == null ? null : invLocation.getCode());
 
-        List<Map<String, Object>> customFields = new ArrayList<>();
-        Map<String, Object> map1 = new HashMap<>();
-        map1.put("fieldCode", "cust_field3__c");
-        map1.put("fieldValue", erp.getSafeQuantity());
-        Map<String, Object> map2 = new HashMap<>();
-        map2.put("fieldCode", "cust_field6__c");
-        map2.put("fieldValue", erp.getAvagCost());
-        customFields.add(map1);
-        customFields.add(map2);
+        List<MaterialDefinitionHeihuFileds> customFields = new ArrayList<>();
+        customFields.add(new MaterialDefinitionHeihuFileds("cust_field3__c", erp.getSafeQuantity()));
+        customFields.add(new MaterialDefinitionHeihuFileds("cust_field6__c", erp.getAvagCost()));
 
         heihu.setCustomFields(customFields);
         heihu.setEnableFlag("启用");

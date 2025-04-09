@@ -71,7 +71,7 @@ public class MaterialDefinitionHeihu {
     /**
      * 安全库存、平均成本
      */
-    private List<Map<String, Object>> customFields;
+    private List<MaterialDefinitionHeihuFileds> customFields;
 
     /**
      * 状态
