@@ -52,7 +52,7 @@
 {
     "param": {
        "Code": "20250305001",
-       "SelectFields": "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity"
+       "SelectFields": "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity,AvagCost"
     }
 }
 

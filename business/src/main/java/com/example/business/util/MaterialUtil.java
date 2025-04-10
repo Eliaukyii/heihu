@@ -60,7 +60,7 @@ public class MaterialUtil {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
 
-        String SelectFields = "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity";
+        String SelectFields = "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity,AvagCost";
         RequestParamErp requestParamErp = new RequestParamErp(code, SelectFields);
 
 
