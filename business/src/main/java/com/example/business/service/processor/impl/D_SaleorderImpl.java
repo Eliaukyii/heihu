@@ -124,7 +124,7 @@ public class D_SaleorderImpl implements Processor {
         List<SaleOrderDetails> details = data.getSaleOrderDetails();
         List<items> itemsList = details.stream().map(detail -> {
             items items1 = new items();
-            items1.setLineNo(1);
+            items1.setLineNo(detail.getID());
             items1.setMaterialCode(detail.getInventory().getCode());
             items1.setAmount(detail.getQuantity());
             items1.setUnit(detail.getUnit().getName());
