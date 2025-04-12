@@ -76,7 +76,7 @@ public class MaterialUtil {
             list = materialUtil.objectMapperUpper.readValue(responseData, new TypeReference<List<MaterialDefinitionErp>>() {
             });
         } catch (JsonProcessingException e) {
-            log.error("物料清单 - 数据转换失败");
+            log.error("物料定义 - 数据转换失败");
             return;
         }
 
@@ -110,7 +110,7 @@ public class MaterialUtil {
                 .bodyToMono(HeihuAuthResponse.class)
                 .block();
         if (!heihuResponse.getCode().equals("200")) {
-            log.error("物料定义，存货新增/修改失败，失败信息：" + heihuResponse.getData() +"；" + heihuResponse.getMessage());
+            log.error("物料定义，存货新增/修改失败，失败信息：" + heihuResponse.getData() + "；" + heihuResponse.getMessage());
         }
     }
 
@@ -124,29 +124,24 @@ public class MaterialUtil {
         heihu.setUnitName(erp.getUnit().getName());
 
         String isBatch = erp.getIsBatch();
-        //若物料分类编号以04开头，则不启用批次号传否
-        String materialCategoryCode = heihu.getMaterialCategoryCode();
-        if (materialCategoryCode.startsWith("04")) {
-            heihu.setBatchManagementEnable("否");
-        } else {
-            heihu.setFifoAttr("批次号");
-            //若启用批次管理
-            if ("True".equals(isBatch)) {
-                heihu.setBatchManagementEnable("是");
-                heihu.setBatchNoRuleCode("PC");
-                heihu.setFifoEnabled("是");
-                //先进先出开启后，管控等级传弱管控
-                if ("是".equals(heihu.getFifoEnabled())) {
-                    heihu.setControlLevel("弱管控");
-                }
 
-            } else if ("False".equals(isBatch)) {
-                //不传批次号规则
-                //先进先出也不传或传否
-//            heihu.setFifoEnabled("否");
-            } else {
-                throw new ServerException("不能识别的批次管理标志，仅识别True、False，相关erp信息：" + erp);
+        heihu.setFifoAttr("批次号");
+        //若启用批次管理
+        if ("True".equals(isBatch)) {
+            heihu.setBatchManagementEnable("是");
+            heihu.setBatchNoRuleCode("PC");
+            heihu.setFifoEnabled("是");
+            //先进先出开启后，管控等级传弱管控
+            if ("是".equals(heihu.getFifoEnabled())) {
+                heihu.setControlLevel("弱管控");
             }
+
+        } else if ("False".equals(isBatch)) {
+            //不传批次号规则
+            //先进先出也不传或传否
+//            heihu.setFifoEnabled("否");
+        } else {
+            throw new ServerException("不能识别的批次管理标志，仅识别True、False，相关erp信息：" + erp);
         }
 
         Warehouse warehouse = erp.getWarehouse();
