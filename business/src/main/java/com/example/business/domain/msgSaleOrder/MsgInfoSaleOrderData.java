@@ -49,4 +49,7 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("ID")
     private Integer ID;
 
+    @JsonProperty("Memo")
+    private String Memo;
+
 }
