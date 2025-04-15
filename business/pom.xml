@@ -10,6 +10,7 @@
     <groupId>com.example</groupId>
 <!--    <artifactId>business-prod</artifactId>-->
     <artifactId>business-test</artifactId>
+<!--    <artifactId>business</artifactId>-->
     <version>1.0</version>
     <name>business</name>
     <description>business</description>

@@ -21,9 +21,10 @@ public class BusinessApplication {
     @PostConstruct
     public void init() {
 
-        String tokenFilePath = "/var/app/files/token.txt";
+//        String tokenFilePath = "/var/app/files/business/token-prod.txt";
+        String tokenFilePath = "/var/app/files/business/token-test.txt";
         try {
-            Files.createDirectories(Paths.get("/var/app/files/"));
+            Files.createDirectories(Paths.get("/var/app/files/business/"));
 
             // 如果 token 文件不存在，创建一个新文件
             Path tokenPath = Paths.get(tokenFilePath);

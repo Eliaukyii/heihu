@@ -43,10 +43,7 @@ paramsErp:
   saleOrderUri: /tplus/api/v2/SaleOrderOpenApi/GetVoucherDTO  #销售订单查询
   purchaseOrderUri: /tplus/api/v2/PurchaseOrderOpenApi/GetVoucherDTO #采购订单查询
 
-file:
-  token:
-    filePath: /var/app/files/
-    fileName: token.txt
+
 
 
 OtherDispatchCreateParams:
