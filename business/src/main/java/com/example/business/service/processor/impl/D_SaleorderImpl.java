@@ -129,6 +129,7 @@ public class D_SaleorderImpl implements Processor {
             items1.setAmount(detail.getQuantity());
             items1.setUnit(detail.getUnit().getName());
             items1.setDeliveryDate(detail.getDeliveryDate());
+            items1.setRemark(data.getMemo());
 
 /*            FieldValue fieldValue = new FieldValue();
             fieldValue.setCustField2C(data.getID().toString());*/

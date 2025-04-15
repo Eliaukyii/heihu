@@ -20,4 +20,5 @@ public class itemList {
 
     private List<CustomFields2> customFields = new ArrayList<>();
 
+    private String remark;
 }

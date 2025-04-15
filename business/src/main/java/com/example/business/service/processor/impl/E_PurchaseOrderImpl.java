@@ -141,6 +141,7 @@ public class E_PurchaseOrderImpl implements Processor {
             itemList1.setMaterialCode(detail.getInventory().getCode());
             //itemList1.setMaterialCode("MA00000000");
             itemList1.setLineNo(detail.getID().toString());
+            itemList1.setRemark(data.getMemo());
 
 /*            FieldValue2 fieldValue2 = new FieldValue2();
             fieldValue2.setCustField2c(data.getID().toString());*/
