@@ -4,8 +4,8 @@ spring:
     name: business
 
   profiles:
-    active: prod
-#    active: test
+#    active: prod
+    active: test
 
 server:
   port: 3559
