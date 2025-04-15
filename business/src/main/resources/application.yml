@@ -3,6 +3,10 @@ spring:
   application:
     name: business
 
+  profiles:
+    active: prod
+#    active: test
+
 server:
   port: 3559
   servlet:
