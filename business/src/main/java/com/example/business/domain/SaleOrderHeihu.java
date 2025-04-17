@@ -25,6 +25,7 @@ public class SaleOrderHeihu {
     private List<items> items;
 
     private List<CustomField> customFields;
+    private String remark;
 
 
 }

@@ -29,4 +29,5 @@ public class PurchaseOrderHeihu {
     private String unitName;
     private List<itemList> itemList;
     private List<CustomField> customFields;
+    private String remark;
 }

@@ -120,6 +120,7 @@ public class D_SaleorderImpl implements Processor {
         String phoneNumber = data.getCustomerPhone();
         phoneNumber = phoneNumber.replaceAll("[\\s-]+", "");
         saleOrderHeihu.setPhoneNumber(phoneNumber);
+        saleOrderHeihu.setRemark(data.getMemo());
         //saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
         List<SaleOrderDetails> details = data.getSaleOrderDetails();
         List<items> itemsList = details.stream().map(detail -> {
@@ -129,7 +130,7 @@ public class D_SaleorderImpl implements Processor {
             items1.setAmount(detail.getQuantity());
             items1.setUnit(detail.getUnit().getName());
             items1.setDeliveryDate(detail.getDeliveryDate());
-            items1.setRemark(data.getMemo());
+//            items1.setRemark(data.getMemo());
 
 /*            FieldValue fieldValue = new FieldValue();
             fieldValue.setCustField2C(data.getID().toString());*/

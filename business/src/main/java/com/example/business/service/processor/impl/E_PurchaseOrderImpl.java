@@ -133,6 +133,7 @@ public class E_PurchaseOrderImpl implements Processor {
 
         List<PurchaseOrderDetails> details = data.getPurchaseOrderDetails();
         purchaseOrderHeihu.setUnitName(details.get(0).getUnit().getName());
+        purchaseOrderHeihu.setRemark(data.getMemo());
 
         List<itemList> itemLists = details.stream().map(detail -> {
             itemList itemList1 = new itemList();
@@ -141,7 +142,7 @@ public class E_PurchaseOrderImpl implements Processor {
             itemList1.setMaterialCode(detail.getInventory().getCode());
             //itemList1.setMaterialCode("MA00000000");
             itemList1.setLineNo(detail.getID().toString());
-            itemList1.setRemark(data.getMemo());
+//            itemList1.setRemark(data.getMemo());
 
 /*            FieldValue2 fieldValue2 = new FieldValue2();
             fieldValue2.setCustField2c(data.getID().toString());*/
