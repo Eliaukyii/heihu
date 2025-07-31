@@ -1,0 +1,99 @@
+
+
+
+
+//物料清单
+{
+    "materialCode": "20250305001",
+    "productRate": "1",
+    "processRoute": "",
+
+    "reportingMethods": [],
+    "version": "1.10",
+    "defaultVersion": "否",
+    "warehousing": "是",
+    "autoWarehousingFlag": "是",
+    "bomInputMaterials": [
+        {
+
+            "bomInputMaterialLines": [
+                {
+                    "materialCode": "002B-Al-00051-raw",
+                    "inputAmountNumerator": "1",
+                    "inputAmountDenominator": "1",
+                    "lossRate": "0",
+                    "pickMode": "按需领料",
+                    "inputProcessNum": "",
+                }
+            ],
+            "bomFeedingControls": [
+
+            ]
+        }
+    ]
+}
+
+//查询工艺路线
+{
+    "param": {
+        "Name": "D3DC3"
+    }
+}
+
+//查询物料清单
+{
+    "dto": {
+       "Code": "002B-Ni0010-raw"
+     }
+}
+
+
+//物料定义
+{
+    "param": {
+       "Code": "20250305001",
+       "SelectFields": "Code,Name,Specification,InventoryClass.Code,InventoryClass.Name,Unit.Code,Unit.Name,IsBatch,BatchCodeRule,Warehouse.Code,Warehouse.Name,InvLocation.Code,InvLocation.Name,Finfout,ControledLevel,FinfoutAttr,SafeQuantity,AvagCost"
+    }
+}
+
+//新增存货
+{
+    "dto": {
+        "Code": "CH250305",
+        "Name": "存货250305",
+        "Specification": "10g",
+        "InventoryClass": {
+            "Code": "01", "Name": "香烟"
+        },
+        "Unit": {
+            "Code": "000", "Name":"盒"
+        },
+        "IsBatch": "是",
+        "BatchCodeRule": "sku001",
+        "Warehouse": "ZTCPK-002",
+        "InvLocation": "",
+        "Finfout": "",
+        "ControledLevel": "",
+        "FinfoutAttr": "",
+        "SafeQuantity": "",
+    }
+}
+
+
+
+
+//供应商
+{
+    "dto": {
+        "Code": "test0301001", "Name": "供应商测试001",
+        "PartnerType": {  "Code": "00"    },
+        "PartnerClass":{  "Code": "02-G"  }
+    }
+}
+
+{
+    "param": {
+       "Code": "ZT002",
+       "SelectFields": "id,code,name,PartnerClass.Code,PartnerType.Code"
+    }
+}

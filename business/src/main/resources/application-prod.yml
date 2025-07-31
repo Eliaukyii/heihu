@@ -1,0 +1,18 @@
+
+
+paramsHeihu:
+
+  appKey: cli_1743569322436981
+  appSecret: afc1ef2207074210b4072e301251dac7
+  factoryNumber: 90623549
+
+paramsErp:
+
+  appKey: 6y5A0aXd
+  appSecret: 62CA8B0C51E7C744730A1D9C189C71D3
+  certificate: OXYwHSWAc22UPHxfIUM0SWW8MWj3AgbeEhP/teNxvwhSwcHPKeoioq0mTMQCpIhSQs+S3GaXyTiCJKl27FeK6uh/DxDywljHbo9v0hwkP9z98dWwLu4npcGLFIKWp2EgS4+4JTSSmbrh0XmOGV/OihEAjNeCGrcwhYsaxKfntVQSLdU3oYq7GKc+DPpSOXH
+
+file:
+  token:
+    filePath: /var/app/files/business/
+    fileName: token-prod.txt

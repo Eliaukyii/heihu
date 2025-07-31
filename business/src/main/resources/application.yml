@@ -1,0 +1,46 @@
+
+spring:
+  application:
+    name: business
+
+  profiles:
+    active: prod
+#    active: test
+
+server:
+  port: 3559
+  servlet:
+    context-path: /
+
+paramsHeihu:
+  tokenUrl: https://v3-ali.blacklake.cn/api/openapi/domain/api/v1/access_token/_get_access_token   #获取黑湖token请求地址
+  url: https://v3-ali.blacklake.cn/api/openapi/domain/web/v1/route #域名
+  materialUri: /material/open/v2/material/_doimport            #物料定义请求地址
+  bomUri: /med/open/v2/bom/_doimport                           #物料清单请求地址
+  customerUri: /order/open/v1/customer/_doimport               #客户请求地址
+  supplierUri: /order/open/v1/supplier/_doimport               #供应商请求地址
+  saleOrderUri: /order/open/v1/sales_order/_doimport           #销售订单请求地址
+  purchaseOrderUri: /order/open/v2/purchase_order/_doimport    #销售订单请求地址
+  saleOrderIssueUri: /order/open/v2/sales_order/_dispatch      #销售订单下发
+  purchaseOrderIssueUri: /order/open/v1/purchase_order/_batch_distribute  #采购订单下发
+
+#  appKey: cli_1735194793846496
+#  appSecret: b4c45fa0f60e41de9769ba3055ce6ed4
+#  factoryNumber: 60894247
+
+  processUri: /med/open/v2/process_route/_detail               #查询工艺路线接口
+
+paramsErp:
+  url: https://openapi.chanjet.com
+  uri: /v1/common/auth/selfBuiltApp/generateToken
+#  appKey: 1qxypOmr
+#  appSecret: 01E398317E2C2C634D90FA931EFFA92D
+#  certificate: OXYwHSWAc22UPHxfIUM0SV1t69Ur50h2hQ5rVnS47dYxfWu0mH2IbIxVNe/lcMG7/p6QHGOiUnFjDKwHLWdR8auh/DxDywljHbo9v0hwkP+bRbEM3DvXAezmhMmaRnD/mNus3y0pDHhpJiLJvZzlkqcBssBkw2+/3wH0wM5BoZYDSpcTyLzdRlBJ9O0hOuDf
+  customerUri: /tplus/api/v2/partner/Query         #往来单位查询
+  inventoryUri: /tplus/api/v2/inventory/Query      #存货查询
+  bomUri: /tplus/api/v2/bom/Query                  #物料清单查询
+  routingUri: /tplus/api/v2/routing/Query          #工艺路线查询
+  saleOrderUri: /tplus/api/v2/SaleOrderOpenApi/GetVoucherDTO  #销售订单查询
+  purchaseOrderUri: /tplus/api/v2/PurchaseOrderOpenApi/GetVoucherDTO #采购订单查询
+
+
