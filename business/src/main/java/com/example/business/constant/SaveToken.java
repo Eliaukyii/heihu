@@ -56,14 +56,6 @@ public class SaveToken {
     public static String getHeihuToken(){
         Date now = new Date();
         if (heihuTokenTime == null || (now.getTime() - heihuTokenTime.getTime()) > heihuTimeSeconds) {
-            HeihuAuthResponse response = TokenUtil.getHeihuToken();
-            HeihuAuthResponseDataBody dataBody = null;
-            try {
-                dataBody = saveToken.objectMapper.convertValue(response.getData(), HeihuAuthResponseDataBody.class);
-            } catch (Exception e) {
-                log.error("获取黑湖token时发生异常，异常信息：" + e.getMessage());
-            }
-            heihuToken =  dataBody.getAppAccessToken();
             heihuTokenTime = new Date();
             log.info("黑湖token过期 - 重新请求的数据：" + heihuToken);
             log.info("黑湖token过期 - 重新请求的时间：" + heihuTokenTime);

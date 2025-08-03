@@ -4,6 +4,8 @@ import com.example.business.domain.SaleOrderOther.DistributionMode;
 import com.example.business.domain.SaleOrderOther.SaleOrderDetails;
 import com.example.business.domain.SaleOrderOther.Unit;
 import com.example.business.domain.SaleOrderOther.DeliveryMode;
+import com.example.business.domain.SaleOrderOther.Currency;
+import com.example.business.domain.SaleOrderOther.Clerk;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -37,6 +39,12 @@ public class MsgInfoSaleOrderData {
     @JsonProperty("SaleOrderDetails")
     //存货编码
     private List<SaleOrderDetails> SaleOrderDetails;
+    //币种
+    @JsonProperty("Currency")
+    private Currency Currency;
+    //业务员
+    @JsonProperty("Clerk")
+    private Clerk Clerk;
     //包装要求
     //标签要求
     //报告要求

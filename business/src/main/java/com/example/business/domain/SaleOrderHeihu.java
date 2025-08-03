@@ -19,8 +19,8 @@ public class SaleOrderHeihu {
     private String receiveInformation;
     //联系人
     private String contactName;
-    //手机号码
-    private String phoneNumber;
+    //币种
+    private String currencyCode;
 
     private List<items> items;
 

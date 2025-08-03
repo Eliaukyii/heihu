@@ -117,11 +117,17 @@ public class D_SaleorderImpl implements Processor {
         saleOrderHeihu.setOwnerCode("admin");
         saleOrderHeihu.setReceiveInformation(data.getAddress());
         saleOrderHeihu.setContactName(data.getLinkMan());
-        String phoneNumber = data.getCustomerPhone();
-        phoneNumber = phoneNumber.replaceAll("[\\s-]+", "");
-        saleOrderHeihu.setPhoneNumber(phoneNumber);
+        // 从ERP获取币种信息，如果没有则默认为RMB
+        String currencyCode = (data.getCurrency() != null && data.getCurrency().getCode() != null) 
+            ? data.getCurrency().getCode() : "RMB";
+        
+        // 币种转换：CNY转换为RMB，其他币种保持不变
+        if ("CNY".equals(currencyCode)) {
+            currencyCode = "RMB";
+        }
+        
+        saleOrderHeihu.setCurrencyCode(currencyCode);
         saleOrderHeihu.setRemark(data.getMemo());
-        //saleOrderHeihu.setPhoneNumber(data.getCustomerPhone());
         List<SaleOrderDetails> details = data.getSaleOrderDetails();
         List<items> itemsList = details.stream().map(detail -> {
             items items1 = new items();
@@ -177,6 +183,14 @@ public class D_SaleorderImpl implements Processor {
         customFields.add(new CustomField("cust_field6__c", pubuserdefnvc3));
         customFields.add(new CustomField("cust_field7__c", pubuserdefnvc6));
         customFields.add(new CustomField("cust_field10__c",data.getMaker()));
+        // 客户手机号字段映射：ERP的CustomerPhone -> 黑湖的cust_field12__c
+        String customerPhone = (data.getCustomerPhone() != null) 
+            ? data.getCustomerPhone().replaceAll("[\\s-]+", "") : "";
+        customFields.add(new CustomField("cust_field12__c", customerPhone));
+        // 业务员字段映射：ERP的Clerk.Code -> 黑湖的cust_field17__c
+        String clerkCode = (data.getClerk() != null && data.getClerk().getCode() != null) 
+            ? data.getClerk().getCode() : "";
+        customFields.add(new CustomField("cust_field17__c", clerkCode));
         saleOrderHeihu.setCustomFields(customFields);
 
         return saleOrderHeihu;

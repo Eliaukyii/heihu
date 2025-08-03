@@ -60,19 +60,5 @@ public class ApiParamsErp {
         ApiParamsErp.bomUri = bomUri;
     }
 
-    @Value("${paramsErp.routingUri}")
-    public void setRoutingUri(String routingUri) {
-        ApiParamsErp.routingUri = routingUri;
-    }
-
-    @Value("${paramsErp.saleOrderUri}")
-    public void setSaleOrderUri(String saleOrderUri) {
-        ApiParamsErp.saleOrderUri = saleOrderUri;
-    }
-
-    @Value("${paramsErp.purchaseOrderUri}")
-    public void setPurchaseOrderUri(String purchaseOrderUri) {
-        ApiParamsErp.purchaseOrderUri = purchaseOrderUri;
-    }
 
 }

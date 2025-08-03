@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class FieldValue2 {
-    @JsonProperty("cust_field2__c")
+    @JsonProperty("custField2c")
     private String custField2c;
 }

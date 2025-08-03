@@ -8,7 +8,7 @@ spring:
     active: test
 
 server:
-  port: 3559
+  port: 3557
   servlet:
     context-path: /
 
@@ -44,7 +44,3 @@ paramsErp:
   purchaseOrderUri: /tplus/api/v2/PurchaseOrderOpenApi/GetVoucherDTO #采购订单查询
 
 
-
-
-OtherDispatchCreateParams:
-  uri: /tplus/api/v2/otherDispatch/Create

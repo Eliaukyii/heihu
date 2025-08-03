@@ -21,7 +21,7 @@ public class ProcessorService {
     public ProcessorService(List<Processor> processors) {
         processorMap = processors.stream()
                 .collect(Collectors.toMap(Processor::getType, Function.identity()));
-        log.info("可识别msgType类型：" + processorMap.keySet());
+        log.info("可识别msgType类型：" + processorMap.entrySet());
     }
 
     public void execute(MsgInfo msgInfo) {
