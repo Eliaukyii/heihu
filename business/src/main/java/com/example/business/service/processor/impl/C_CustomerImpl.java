@@ -101,7 +101,38 @@ public class C_CustomerImpl implements Processor {
             }
 
         } else if ("02".equals(partnerTypeCode)) {
-            //暂无
+            // 客户兼供应商，同时调用客户和供应商新增接口
+
+            // 先调用供应商新增接口
+            HeihuAuthResponse supplierResponse = webClient.post()
+                    .uri(apiParamsHeihu.supplierUri)
+                    .bodyValue(map)
+                    .retrieve()
+                    .bodyToMono(HeihuAuthResponse.class)
+                    .block();
+            if (!supplierResponse.getCode().equals("200")) {
+                log.error("客户兼供应商-供应商新增失败，失败信息：" + supplierResponse.getData() + "；" + supplierResponse.getMessage());
+            } else {
+                log.info("客户兼供应商-供应商新增成功");
+            }
+
+            // 再调用客户新增接口
+            Map<String, Object> customerMap = new HashMap<>();
+            customerMap.put("code", code);
+            customerMap.put("name", name);
+            customerMap.put("ownerCode", "admin");
+
+            HeihuAuthResponse customerResponse = webClient.post()
+                    .uri(apiParamsHeihu.customerUri)
+                    .bodyValue(customerMap)
+                    .retrieve()
+                    .bodyToMono(HeihuAuthResponse.class)
+                    .block();
+            if (!customerResponse.getCode().equals("200")) {
+                log.error("客户兼供应商-客户新增失败，失败信息：" + customerResponse.getData() + "；" + customerResponse.getMessage());
+            } else {
+                log.info("客户兼供应商-客户新增成功");
+            }
         } else {
             log.error("未知的code：" + partnerTypeCode);
         }
