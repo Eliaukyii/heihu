@@ -11,7 +11,6 @@ paramsErp:
   appKey: 6y5A0aXd
   appSecret: 62CA8B0C51E7C744730A1D9C189C71D3
   certificate: OXYwHSWAc22UPHxfIUM0SWWW8MWj3AgbeEhP/teNxvwhSwcHPKeoioq0mTMQCpIhSQs+S3GaXyTiCJKl27FeK6uh/DxDywljHbo9v0hwkP/qwUioZvsGG/B0Z3FXPidFA4wwyMpFz99D3cnr8cUWVsPKtXlj7u2lrHQUwEovjj/RTBxmVs4+unEBqaAaVri4
-
 file:
   token:
     filePath: /var/app/files/business/

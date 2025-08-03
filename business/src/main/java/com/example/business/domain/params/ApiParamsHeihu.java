@@ -27,6 +27,23 @@ public class ApiParamsHeihu {
 //    public static String certificate;
 
 
+    @Value("${paramsHeihu.tokenUrl}")
+    public void setTokenUrl(String tokenUrl) {
+        ApiParamsHeihu.tokenUrl = tokenUrl;
+    }
+
+    @Value("${paramsHeihu.url}")
+    public void setUrl(String url) {
+        ApiParamsHeihu.url = url;
+    }
+
+    @Value("${paramsHeihu.materialUri}")
+    public void setMaterialUri(String materialUri) {
+        ApiParamsHeihu.materialUri = materialUri;
+    }
+
+
+
     @Value("${paramsHeihu.bomUri}")
     public void setBomUri(String bomUri) {
         ApiParamsHeihu.bomUri = bomUri;

@@ -44,3 +44,5 @@ paramsErp:
   purchaseOrderUri: /tplus/api/v2/PurchaseOrderOpenApi/GetVoucherDTO #采购订单查询
 
 
+OtherDispatchCreateParams:
+  uri: /tplus/api/v2/otherDispatch/Create
