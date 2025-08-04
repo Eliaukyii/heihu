@@ -7,4 +7,7 @@ import lombok.Data;
 public class Clerk {
     @JsonProperty("Code")
     private String Code;
+
+    @JsonProperty("Name")
+    private String Name;
 } 

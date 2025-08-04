@@ -4,11 +4,11 @@ spring:
     name: business
 
   profiles:
-#    active: prod
-    active: test
+    active: prod
+#    active: test
 
 server:
-  port: 3557
+  port: 3559
   servlet:
     context-path: /
 
